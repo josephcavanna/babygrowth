@@ -17,12 +17,11 @@ class WeightBoysData extends StatefulWidget {
 class _WeightBoysDataState extends State<WeightBoysData> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  int currentUnit;
+  int currentUnit = 0;
 
   void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUnit = prefs.getInt('currentUnit' ?? 0);
-    print(currentUnit);
   }
 
   @override

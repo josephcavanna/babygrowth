@@ -22,7 +22,6 @@ class _HeightBoysDataState extends State<HeightBoysData> {
   void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUnit = prefs.getInt('currentUnit' ?? 0);
-    print(currentUnit);
   }
 
   @override
@@ -52,7 +51,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
           List<FlSpot> babyLogEntries = [];
           for (var entry in entries) {
             final height = entry.data()['height'];
-            final double heightDouble = height.toDouble();
+            if (height != null) {final double heightDouble = height.toDouble();
             final Timestamp date = entry.data()['date'];
             final monthDate =
                 DateTime.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch)
@@ -63,9 +62,9 @@ class _HeightBoysDataState extends State<HeightBoysData> {
 
             final babyLogEntry = FlSpot(monthDate, heightDouble);
             babyLogEntries.add(babyLogEntry);
-          }
+          }}
           return Container(
-            padding: EdgeInsets.only(left: 15, right: 15, bottom: 25, top: 25),
+            padding: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 25),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(90), topRight: Radius.circular(90)),
@@ -85,7 +84,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                         "Height Curve",
                         style: TextStyle(
                             color: Colors.deepOrangeAccent[100],
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
@@ -136,7 +135,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                   getTextStyles: (value) => TextStyle(
                                     color: Colors.deepOrangeAccent[100],
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 12,
+                                    fontSize: 10,
                                   ),
                                   margin: 10,
                                   getTitles: (value) {

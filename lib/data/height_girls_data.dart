@@ -21,7 +21,6 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
   void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUnit = prefs.getInt('currentUnit' ?? 0);
-    print(currentUnit);
   }
 
   @override

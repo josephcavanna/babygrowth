@@ -9,7 +9,7 @@ class UnitNotifier extends StatefulWidget with ChangeNotifier {
 
 class _UnitNotifierState extends State<UnitNotifier> {
   List<bool> unitSelected;
-  int currentUnit = 0;
+  int currentUnit;
   List<String> units = ['metric', 'imperial'];
 
   void initState() {
@@ -37,30 +37,28 @@ class _UnitNotifierState extends State<UnitNotifier> {
           [true, false]);
     });
     currentUnit = prefs.getInt('currentUnit' ?? 0);
-    print(currentUnit);
   }
 
   @override
   Widget build(BuildContext context) {
     return ToggleButtons(
       renderBorder: true,
-      borderColor: Colors.green[300],
-      color: Colors.green[300],
+      borderColor: Colors.black,
+      color: Colors.black,
       borderWidth: 1,
-      borderRadius: BorderRadius.circular(30),
-      disabledBorderColor: Colors.green[300],
-      selectedBorderColor: Colors.green[300],
-      fillColor: Colors.green[300],
+      disabledBorderColor: Colors.black,
+      selectedBorderColor: Colors.black,
+      fillColor: Colors.black,
       splashColor: Colors.grey,
       selectedColor: Colors.white,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40),
-          child: Text(' Metric '),
+          padding: const EdgeInsets.all(8.0),
+          child: Text('cm / kg'),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40),
-          child: Text('Imperial'),
+          padding: const EdgeInsets.all(8.0),
+          child: Text('in / lbs'),
         )
       ],
       isSelected: unitSelected,
@@ -78,6 +76,7 @@ class _UnitNotifierState extends State<UnitNotifier> {
         });
         currentUnit = index;
         saveSelectedUnit();
+        print(currentUnit);
       },
     );
   }

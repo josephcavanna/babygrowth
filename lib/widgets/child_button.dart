@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:babygrowth_app/screens/baby_page.dart';
+import 'package:BabyGrowth/screens/baby_page.dart';
 import 'dart:io';
 
 class ChildButton extends StatefulWidget {
@@ -38,17 +38,11 @@ class _ChildButtonState extends State<ChildButton> {
     return MaterialButton(
       visualDensity: VisualDensity.compact,
       child: Container(
-        margin: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).orientation == Orientation.portrait
-                ? 5
-                : 0),
         child: Card(
-          child: Padding(
-            padding: MediaQuery.of(context).orientation == Orientation.portrait
-                ? EdgeInsets.symmetric(horizontal: 0.0, vertical: 0)
-                : EdgeInsets.all(0),
-            child: MediaQuery.of(context).orientation == Orientation.portrait
-                ? Row(
+          child: MediaQuery.of(context).orientation == Orientation.portrait
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
@@ -78,30 +72,29 @@ class _ChildButtonState extends State<ChildButton> {
                         child: birthdayText(),
                       ),
                     ],
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Hero(
-                          tag: widget.name,
-                          child: profilePhoto(profileRadius: 60),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 15.0, left: 15, right: 15),
-                        child: nameText(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 25.0),
-                        child: ageText(),
-                      ),
-                    ],
                   ),
-          ),
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 20),
+                      child: Hero(
+                        tag: widget.name,
+                        child: profilePhoto(profileRadius: 60),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          MediaQuery.of(context).size.aspectRatio >= 16 / 9
+                              ? const EdgeInsets.only(bottom: 200.0, top: 10)
+                              : const EdgeInsets.only(bottom: 100.0, top: 0),
+                      child: nameText(),
+                    ),
+                  ],
+                ),
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -161,7 +154,7 @@ class _ChildButtonState extends State<ChildButton> {
                   .toString(),
           style: TextStyle(
             color: Colors.black54,
-            fontSize: 12,
+            fontSize: 9,
           ),
         ),
       ],
@@ -173,19 +166,22 @@ class _ChildButtonState extends State<ChildButton> {
       widget.name,
       style: TextStyle(
         color: genderColor(),
-        fontSize: 28.0 - (widget.name.length) / 1.6,
+        fontSize: 24.0 - (widget.name.length) / 1.6,
       ),
     );
   }
 
   Text ageText() {
-    return Text(
-      '${(DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(widget.age.millisecondsSinceEpoch)).inDays / 30).round()} months old',
+    return (DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(widget.age.millisecondsSinceEpoch)).inDays / 365).round() != 0 ? Text(
+      '${(DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(widget.age.millisecondsSinceEpoch)).inDays / 365).round()} years old',
       style: TextStyle(
         color: Colors.black54,
         fontSize: 12,
       ),
-    );
+    ) : Text('${(DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(widget.age.millisecondsSinceEpoch)).inDays / 30).round()} months old', style: TextStyle(
+      color: Colors.black54,
+      fontSize: 12,
+    ),);
   }
 
   Material profilePhoto({double profileRadius}) {
