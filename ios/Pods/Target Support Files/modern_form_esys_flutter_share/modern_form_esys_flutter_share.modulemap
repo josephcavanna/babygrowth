@@ -1,0 +1,6 @@
+framework module modern_form_esys_flutter_share {
+  umbrella header "modern_form_esys_flutter_share-umbrella.h"
+
+  export *
+  module * { export * }
+}

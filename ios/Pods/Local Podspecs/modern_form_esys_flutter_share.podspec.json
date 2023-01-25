@@ -1,0 +1,30 @@
+{
+  "name": "modern_form_esys_flutter_share",
+  "version": "0.0.1",
+  "summary": "A Flutter plugin for sharing images & text with other applications",
+  "description": "A Flutter plugin for sharing images & text with other applications.",
+  "homepage": "https://github.com/apps-auth/modern_form_esys_flutter_share",
+  "license": {
+    "type": "MIT",
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Apps Auth": "business.appsauth@gmail.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "public_header_files": "Classes/**/*.h",
+  "dependencies": {
+    "Flutter": [
+
+    ]
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES"
+  }
+}
