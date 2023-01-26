@@ -10,9 +10,7 @@
 #endif
 #endif
 
-#import "FLTPathProviderPlugin.h"
-#import "messages.g.h"
 
-FOUNDATION_EXPORT double path_provider_iosVersionNumber;
-FOUNDATION_EXPORT const unsigned char path_provider_iosVersionString[];
+FOUNDATION_EXPORT double path_provider_foundationVersionNumber;
+FOUNDATION_EXPORT const unsigned char path_provider_foundationVersionString[];
 
