@@ -69,7 +69,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              width: 110,
+              width: 100,
               height: 35,
               color: Colors.transparent,
               child: Center(
@@ -84,7 +84,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
             ),
             widget.currentUnit == 0
                 ? Container(
-                    width: 80,
+                    width: 75,
                     height: 35,
                     decoration: BoxDecoration(
                 color: Colors.transparent,
@@ -94,7 +94,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
                   )
                 : imperialWeightWidget(),
             Container(
-              width: widget.currentUnit == 0 ? 80 : 50,
+              width: widget.currentUnit == 0 ? 75 : 50,
               height: 35,
               decoration: BoxDecoration(
                 color: Colors.transparent,
@@ -188,7 +188,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
       children: [
         Container(
           height: 35,
-          width: 55,
+          width: 100,
           decoration: BoxDecoration(
                 color: Colors.transparent,
                 border: Border.all(color: widget.isGirl == true ? Colors.pink : Colors.blue, width: 2)
@@ -197,7 +197,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
             child: FittedBox(
               child: Text(
                 widget.weightPounds != null
-                    ? '${widget.weightPounds!.toStringAsFixed(0)} lb'
+                    ? '${widget.weightPounds!.toStringAsFixed(0)} lb ${widget.weightOunces!.round()} oz'
                     : '-',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
@@ -205,26 +205,26 @@ class _LogEntryItemState extends State<LogEntryItem> {
             ),
           ),
         ),
-        const SizedBox(width: 3,),
-        Container(
-          height: 35,
-          width: 55,
-           decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: widget.isGirl == true ? Colors.pink : Colors.blue, width: 2)
-              ),
-          child: Center(
-            child: FittedBox(
-              child: Text(
-                widget.weightOunces != null
-                    ? '${widget.weightOunces!.round()} oz'
-                    : '-',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
-              ),
-            ),
-          ),
-        )
+        // const SizedBox(width: 3,),
+        // Container(
+        //   height: 35,
+        //   width: 55,
+        //    decoration: BoxDecoration(
+        //         color: Colors.transparent,
+        //         border: Border.all(color: widget.isGirl == true ? Colors.pink : Colors.blue, width: 2)
+        //       ),
+        //   child: Center(
+        //     child: FittedBox(
+        //       child: Text(
+        //         widget.weightOunces != null
+        //             ? '${widget.weightOunces!.round()} oz'
+        //             : '-',
+        //         textAlign: TextAlign.center,
+        //         style: TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
+        //       ),
+        //     ),
+        //   ),
+        // )
       ],
     );
   }
@@ -346,10 +346,10 @@ class _LogEntryItemState extends State<LogEntryItem> {
         hintText: 'Enter pounds',
         hintStyle: TextStyle(color: Colors.grey[400]),
       ),
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: false),
       textAlign: TextAlign.center,
       onChanged: (newValue) {
-        newWeightPounds = double.parse(newValue.replaceAll(RegExp(r','), '.'));
+        newWeightPounds = double.parse(newValue);
         newWeightPoundsToKg = (newWeightPounds ?? 0) / 2.205;
       },
     );
@@ -361,10 +361,10 @@ class _LogEntryItemState extends State<LogEntryItem> {
         hintText: 'Enter ounces',
         hintStyle: TextStyle(color: Colors.grey[400]),
       ),
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: false),
       textAlign: TextAlign.center,
       onChanged: (newValue) {
-        newWeightOunces = double.parse(newValue.replaceAll(RegExp(r','), '.'));
+        newWeightOunces = double.parse(newValue);
         newWeightOuncestoKg = (newWeightOunces ?? 0) / 35.274;
       },
     );

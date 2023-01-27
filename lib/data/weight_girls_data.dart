@@ -32,7 +32,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
 
   void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    currentUnit = prefs.getInt('currentUnit')!;
+    currentUnit = prefs.getInt('currentUnit');
   }
 
   @override

@@ -34,7 +34,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
 
   void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    currentUnit = prefs.getInt('currentUnit')!;
+    currentUnit = prefs.getInt('currentUnit');
     print(currentUnit);
   }
 
@@ -386,7 +386,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
             ),
           );
         });
-  }
+  } 
 
   Widget otherXAxisTitlesWidget(value, TitleMeta titleMeta) {
     switch (value.toInt()) {

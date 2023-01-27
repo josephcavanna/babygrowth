@@ -85,7 +85,7 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
 
    void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    currentUnit = prefs.getInt('currentUnit')!;
+    currentUnit = prefs.getInt('currentUnit');
   }
 
   Future<dynamic> getData() async {
@@ -223,21 +223,17 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
               left: MediaQuery.of(context).size.width / 1.35,
               child: SizedBox(
                 height: 50,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15,
-                      child: Switch.adaptive(
-                        activeColor: genderColor(),
-                        value: dotsSwitch,
-                        onChanged: (value) {
-                          setState(() {
-                            dotsSwitch = value;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
+                child: SizedBox(
+                  height: 15,
+                  child: Switch.adaptive(
+                    activeColor: genderColor(),
+                    value: dotsSwitch,
+                    onChanged: (value) {
+                      setState(() {
+                        dotsSwitch = value;
+                      });
+                    },
+                  ),
                 ),
               ),
             ),

@@ -18,7 +18,6 @@ class _BabyListScreenState extends State<BabyListScreen> {
   @override
   void initState() {
     getCurrentUnit();
-    print(currentUnit);
     super.initState();
   }
 
