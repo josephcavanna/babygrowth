@@ -379,15 +379,15 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
   Widget otherXAxisTitlesWidget(value, TitleMeta titleMeta) {
     switch (value.toInt()) {
       case 12:
-        return const Text('1 year');
+        return const Text('1 yr');
       case 24:
-        return const Text('2 years');
+        return const Text('2 yr');
       case 36:
-        return const Text('3 years');
+        return const Text('3 yr');
       case 48:
-        return const Text('4 years');
+        return const Text('4 yr');
       case 60:
-        return const Text('5 years');
+        return const Text('5 yr');
     }
     return const Text('');
   }

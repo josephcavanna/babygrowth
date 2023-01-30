@@ -94,7 +94,7 @@ class _BabyListScreenState extends State<BabyListScreen> {
                   ? height * 0.75
                   : height * 0.63,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.5),
+                // color: Colors.white.withOpacity(0.5),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(
                         orientation == Orientation.portrait ? 10.0 : 0),

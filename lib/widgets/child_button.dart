@@ -44,8 +44,7 @@ class _ChildButtonState extends State<ChildButton> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.only(
-          top: orientation == Orientation.portrait ? 10.0 : 0.0,
+      padding: const EdgeInsets.only(
           left: 20,
           right: 20,
           bottom: 10),
@@ -124,17 +123,14 @@ class _ChildButtonState extends State<ChildButton> {
             child: Container(
               width: orientation == Orientation.portrait ? width : null,
               decoration: BoxDecoration(
-                color: Colors.black,
-                border: Border.all(
-                    color: Style().genderColor(isGirl: widget.isGirl!),
-                    width: 4),
+                color: Colors.white.withOpacity(0.7),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(5),
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 18.0, vertical: 10.0),
+                padding: orientation == Orientation.portrait ? const EdgeInsets.only(
+                    left: 18.0, right: 18.0, top: 10.0, bottom: 5) : const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -143,14 +139,10 @@ class _ChildButtonState extends State<ChildButton> {
                       child: profilePhoto(
                           profileRadius: orientation == Orientation.portrait
                               ? height * 0.09
-                              : height * 0.18),
-                    ),
-                    const SizedBox(
-                      height: 10,
+                              : height * 0.15),
                     ),
                     Container(
-                      width: 100,
-                      height: 35,
+                      height: 45,
                       decoration: const BoxDecoration(
                         color: Colors.transparent,
                       ),
@@ -158,9 +150,10 @@ class _ChildButtonState extends State<ChildButton> {
                         child: Text(
                           widget.name!,
                           style: TextStyle(
-                            color: Style().genderColor(isGirl: widget.isGirl!),
-                            fontWeight: FontWeight.w200,
-                          ),
+                              color: 
+                                  Style().genderColor(isGirl: widget.isGirl!),
+                              fontWeight: FontWeight.w300,
+                              ),
                         ),
                       ),
                     ),
@@ -181,7 +174,7 @@ class _ChildButtonState extends State<ChildButton> {
       elevation: 4,
       child: CircleAvatar(
         radius: profileRadius,
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.grey[300],
         backgroundImage: const AssetImage('assets/LogoGraphic.webp'),
         foregroundImage: FileImage(widget.babyImage!),
       ),
