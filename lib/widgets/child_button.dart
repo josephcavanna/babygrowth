@@ -42,9 +42,10 @@ class _ChildButtonState extends State<ChildButton> {
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Padding(
       padding:
-          const EdgeInsets.only(top: 10.0, left: 20, right: 20, bottom: 10),
+          EdgeInsets.only(top: orientation == Orientation.portrait ? 10.0 : 0.0, left: 20, right: 20, bottom: 10),
       child: Center(
         child: Dismissible(
           background: Container(
@@ -98,9 +99,11 @@ class _ChildButtonState extends State<ChildButton> {
           ),
           key: Key(widget.babyID!),
           child: Container(
-            decoration: const BoxDecoration(
+            width: orientation == Orientation.portrait ? width : null,
+            decoration: BoxDecoration(
               color: Colors.black,
-              borderRadius: BorderRadius.all(
+              border: Border.all(color: Style().genderColor(isGirl: widget.isGirl!), width: 4),
+              borderRadius: const BorderRadius.all(
                 Radius.circular(5),
               ),
             ),
@@ -134,12 +137,12 @@ class _ChildButtonState extends State<ChildButton> {
                       tag: widget.name!,
                       child: profilePhoto(
                           profileRadius: orientation == Orientation.portrait
-                              ? height * 0.1
+                              ? height * 0.09
                               : height * 0.18),
                     ),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 10,
                   ),
                   Container(
                     width: 100,
@@ -152,7 +155,8 @@ class _ChildButtonState extends State<ChildButton> {
                         widget.name!,
                         style: TextStyle(
                             color: Style().genderColor(isGirl: widget.isGirl!),
-                            fontWeight: FontWeight.w200),
+                            fontWeight: FontWeight.w200,
+                            ),
                       ),
                     ),
                   ),

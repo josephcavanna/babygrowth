@@ -28,6 +28,9 @@ class _BabyListScreenState extends State<BabyListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final orientation = MediaQuery.of(context).orientation;
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -73,7 +76,9 @@ class _BabyListScreenState extends State<BabyListScreen> {
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddBaby(currentUnit: currentUnit,),
+                            builder: (context) => AddBaby(
+                              currentUnit: currentUnit,
+                            ),
                           ),
                         ),
                       ),
@@ -82,42 +87,34 @@ class _BabyListScreenState extends State<BabyListScreen> {
                 ],
               ),
             ),
-            SizedBox(
-                height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? 75
-                        : 0),
+            SizedBox(height: orientation == Orientation.portrait ? 75 : 0),
             Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.height * 0.75
-                  : MediaQuery.of(context).size.height * 0.63,
+              width: width * 0.7,
+              height: orientation == Orientation.portrait
+                  ? height * 0.75
+                  : height * 0.63,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.5),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(
-                        MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 10.0
-                            : 0),
+                        orientation == Orientation.portrait ? 10.0 : 0),
                     topRight: Radius.circular(
-                        MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 10.0
-                            : 0)),
+                        orientation == Orientation.portrait ? 10.0 : 0)),
               ),
               child: ListView(
-                scrollDirection:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? Axis.vertical
-                        : Axis.horizontal,
+                scrollDirection: orientation == Orientation.portrait
+                    ? Axis.vertical
+                    : Axis.horizontal,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.65,
-                    width: MediaQuery.of(context).size.width,
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 68.0),
-                      child: BabyList(),
+                    height: height * 0.65,
+                    width: width,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: orientation == Orientation.portrait ? 0 : 50,
+                        bottom: orientation == Orientation.portrait ? 68.0 : 10,
+                      ),
+                      child: const BabyList(),
                     ),
                   ),
                 ],
