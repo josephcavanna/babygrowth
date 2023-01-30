@@ -96,7 +96,7 @@ class _AddEntryState extends State<AddEntry> {
                 onChanged: (newValue) {
                   weightKg =
                       double.parse(newValue.replaceAll(RegExp(r','), '.'));
-                      weight = weightKg;
+                  weight = weightKg;
                   print('weightKg: $weightKg');
                   print('weight: $weight');
                 },
@@ -255,7 +255,8 @@ class _AddEntryState extends State<AddEntry> {
               padding: const EdgeInsets.only(right: 25.0),
               child: TextField(
                 onChanged: (newValue) {
-                  heightInches = double.parse(newValue.replaceAll(RegExp(r','), '.'));
+                  heightInches =
+                      double.parse(newValue.replaceAll(RegExp(r','), '.'));
                   heightInchestoCm = heightInches! * 2.54;
                   height = heightInchestoCm;
                   print('heightInches: $heightInches');
@@ -263,7 +264,8 @@ class _AddEntryState extends State<AddEntry> {
                   print('height: $height');
                 },
                 textAlign: TextAlign.center,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   hintText: 'Enter height in inches',
                 ),
@@ -330,22 +332,6 @@ class _AddEntryState extends State<AddEntry> {
               'height': height,
               'weight': weight,
             });
-          }
-          if (height != null && weight != null) {
-            _firestore
-                .collection(_auth.currentUser!.uid)
-                .doc(widget.babyName)
-                .update({'height': height, 'weight': weight});
-          } else if (height != null) {
-            _firestore
-                .collection(_auth.currentUser!.uid)
-                .doc(widget.babyName)
-                .update({'height': height});
-          } else if (weight != null) {
-            _firestore
-                .collection(_auth.currentUser!.uid)
-                .doc(widget.babyName)
-                .update({'weight': weight});
           }
           Navigator.pop(context!);
         },

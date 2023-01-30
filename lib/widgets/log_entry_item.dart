@@ -45,10 +45,8 @@ double? newHeightInches;
 double? newHeightInchestoCm;
 
 class _LogEntryItemState extends State<LogEntryItem> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final auth = FirebaseAuth.instance;
+  final firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +56,26 @@ class _LogEntryItemState extends State<LogEntryItem> {
     String formattedDateUS = DateFormat('MM-dd-yyyy').format(
         DateTime.fromMillisecondsSinceEpoch(
             widget.date!.millisecondsSinceEpoch));
-    final auth = FirebaseAuth.instance;
-    final firestore = FirebaseFirestore.instance;
+    var entryFileDate =
+        DateTime.fromMillisecondsSinceEpoch(widget.date!.millisecondsSinceEpoch)
+            .toString();
+    var entryFile = firestore
+        .collection(auth.currentUser!.uid)
+        .doc(widget.name)
+        .collection('entries')
+        .doc(entryFileDate);
+
+    String? birthDay;
+
+    var docName = firestore.collection(auth.currentUser!.uid).doc(widget.name);
+    docName.get().then((DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      final birthdayTimeStamp = data['birthday'];
+      final birthday = DateTime.fromMillisecondsSinceEpoch(
+              birthdayTimeStamp.millisecondsSinceEpoch)
+          .toString();
+      birthDay = birthday;
+    });
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
@@ -77,7 +93,9 @@ class _LogEntryItemState extends State<LogEntryItem> {
                   child: Text(
                     widget.currentUnit == 0 ? formattedDateEU : formattedDateUS,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.w200, ),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w200,
+                    ),
                   ),
                 ),
               ),
@@ -87,9 +105,12 @@ class _LogEntryItemState extends State<LogEntryItem> {
                     width: 75,
                     height: 35,
                     decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: widget.isGirl == true ? Colors.pink : Colors.blue, width: 2)
-              ),
+                        color: Colors.transparent,
+                        border: Border.all(
+                            color: widget.isGirl == true
+                                ? Colors.pink
+                                : Colors.blue,
+                            width: 2)),
                     child: Center(child: metricWeightWidget()),
                   )
                 : imperialWeightWidget(),
@@ -97,9 +118,12 @@ class _LogEntryItemState extends State<LogEntryItem> {
               width: widget.currentUnit == 0 ? 75 : 50,
               height: 35,
               decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: widget.isGirl == true ? Colors.deepOrange : Colors.teal[300]!, width: 2)
-              ),
+                  color: Colors.transparent,
+                  border: Border.all(
+                      color: widget.isGirl == true
+                          ? Colors.deepOrange
+                          : Colors.teal[300]!,
+                      width: 2)),
               child: Center(
                 child: FittedBox(
                   child: Text(
@@ -107,7 +131,10 @@ class _LogEntryItemState extends State<LogEntryItem> {
                         ? widget.height!.toStringAsFixed(1) + widget.heightUnit!
                         : '-',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: widget.isGirl == true ? Colors.deepOrange : Colors.teal[300]),
+                    style: TextStyle(
+                        color: widget.isGirl == true
+                            ? Colors.deepOrange
+                            : Colors.teal[300]),
                   ),
                 ),
               ),
@@ -146,34 +173,43 @@ class _LogEntryItemState extends State<LogEntryItem> {
                 IconButton(
                   icon: const Icon(Icons.delete_outline_sharp),
                   visualDensity: VisualDensity.compact,
-                  onPressed: () => showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: const Text(
-                                'Are you sure you want to delete this entry?'),
-                            actions: [
-                              TextButton(
-                                  child: const Text('Delete'),
-                                  onPressed: () {
-                                    firestore
-                                        .collection(auth.currentUser!.uid)
-                                        .doc(widget.name)
-                                        .collection('entries')
-                                        .doc(
-                                            DateTime.fromMillisecondsSinceEpoch(
-                                                    widget.date!
-                                                        .millisecondsSinceEpoch)
-                                                .toString())
-                                        .delete();
-                                    Navigator.pop(context);
-                                  }),
-                              TextButton(
-                                child: const Text('No'),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ],
-                          )),
-                ),
+                  onPressed: () => birthDay != entryFileDate
+                      ? showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const Text(
+                                    'Are you sure you want to delete this entry?'),
+                                actions: [
+                                  TextButton(
+                                      child: const Text('Delete'),
+                                      onPressed: () {
+                                        print(birthDay);
+                                        print(entryFileDate);
+                                        if (birthDay != entryFileDate) {
+                                          entryFile.delete();
+                                        }
+                                        Navigator.pop(context);
+                                      }),
+                                  TextButton(
+                                    child: const Text('No'),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                ],
+                              ))
+                      : showDialog(
+                          context: context,
+                          builder: ((context) => AlertDialog(
+                                title: Text(
+                                    'You can\'t delete ${widget.name!}\'s birthday entry'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Go back'),
+                                  ),
+                                ],
+                              )),
+                        ),
+                )
               ],
             ),
           ],
@@ -190,9 +226,10 @@ class _LogEntryItemState extends State<LogEntryItem> {
           height: 35,
           width: 100,
           decoration: BoxDecoration(
-                color: Colors.transparent,
-                border: Border.all(color: widget.isGirl == true ? Colors.pink : Colors.blue, width: 2)
-              ),
+              color: Colors.transparent,
+              border: Border.all(
+                  color: widget.isGirl == true ? Colors.pink : Colors.blue,
+                  width: 2)),
           child: Center(
             child: FittedBox(
               child: Text(
@@ -200,31 +237,12 @@ class _LogEntryItemState extends State<LogEntryItem> {
                     ? '${widget.weightPounds!.toStringAsFixed(0)} lb ${widget.weightOunces!.round()} oz'
                     : '-',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
+                style: TextStyle(
+                    color: widget.isGirl == true ? Colors.pink : Colors.blue),
               ),
             ),
           ),
         ),
-        // const SizedBox(width: 3,),
-        // Container(
-        //   height: 35,
-        //   width: 55,
-        //    decoration: BoxDecoration(
-        //         color: Colors.transparent,
-        //         border: Border.all(color: widget.isGirl == true ? Colors.pink : Colors.blue, width: 2)
-        //       ),
-        //   child: Center(
-        //     child: FittedBox(
-        //       child: Text(
-        //         widget.weightOunces != null
-        //             ? '${widget.weightOunces!.round()} oz'
-        //             : '-',
-        //         textAlign: TextAlign.center,
-        //         style: TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
-        //       ),
-        //     ),
-        //   ),
-        // )
       ],
     );
   }
@@ -235,7 +253,8 @@ class _LogEntryItemState extends State<LogEntryItem> {
           ? widget.weight!.toStringAsFixed(1) + widget.weightUnit!
           : '-',
       textAlign: TextAlign.center,
-       style: TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
+      style:
+          TextStyle(color: widget.isGirl == true ? Colors.pink : Colors.blue),
     );
   }
 

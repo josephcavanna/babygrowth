@@ -115,7 +115,10 @@ class _BabyListScreenState extends State<BabyListScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.65,
                     width: MediaQuery.of(context).size.width,
-                    child: const BabyList(),
+                    child: const Padding(
+                      padding: EdgeInsets.only(bottom: 68.0),
+                      child: BabyList(),
+                    ),
                   ),
                 ],
               ),
