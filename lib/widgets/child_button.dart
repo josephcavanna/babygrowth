@@ -44,8 +44,11 @@ class _ChildButtonState extends State<ChildButton> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Padding(
-      padding:
-          EdgeInsets.only(top: orientation == Orientation.portrait ? 10.0 : 0.0, left: 20, right: 20, bottom: 10),
+      padding: EdgeInsets.only(
+          top: orientation == Orientation.portrait ? 10.0 : 0.0,
+          left: 20,
+          right: 20,
+          bottom: 10),
       child: Center(
         child: Dismissible(
           background: Container(
@@ -98,69 +101,71 @@ class _ChildButtonState extends State<ChildButton> {
             ),
           ),
           key: Key(widget.babyID!),
-          child: Container(
-            width: orientation == Orientation.portrait ? width : null,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              border: Border.all(color: Style().genderColor(isGirl: widget.isGirl!), width: 4),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(5),
+          child: GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BabyDetailsPage(
+                  babyImage: widget.babyImage!,
+                  babyID: widget.babyID!,
+                  weight: widget.weight!,
+                  height: widget.height!,
+                  babyName: widget.name!,
+                  isGirl: widget.isGirl!,
+                  age: DateTime.now()
+                          .difference(DateTime.fromMillisecondsSinceEpoch(
+                              widget.age!.millisecondsSinceEpoch))
+                          .inDays /
+                      30,
+                  birthDay: widget.age!,
+                ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BabyDetailsPage(
-                          babyImage: widget.babyImage!,
-                          babyID: widget.babyID!,
-                          weight: widget.weight!,
-                          height: widget.height!,
-                          babyName: widget.name!,
-                          isGirl: widget.isGirl!,
-                          age: DateTime.now()
-                                  .difference(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          widget.age!.millisecondsSinceEpoch))
-                                  .inDays /
-                              30,
-                          birthDay: widget.age!,
-                        ),
-                      ),
-                    ),
-                    child: Hero(
+            child: Container(
+              width: orientation == Orientation.portrait ? width : null,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(
+                    color: Style().genderColor(isGirl: widget.isGirl!),
+                    width: 4),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(5),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0, vertical: 10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Hero(
                       tag: widget.name!,
                       child: profilePhoto(
                           profileRadius: orientation == Orientation.portrait
                               ? height * 0.09
                               : height * 0.18),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: 100,
-                    height: 35,
-                    decoration: const BoxDecoration(
-                      color: Colors.transparent,
+                    const SizedBox(
+                      height: 10,
                     ),
-                    child: FittedBox(
-                      child: Text(
-                        widget.name!,
-                        style: TextStyle(
+                    Container(
+                      width: 100,
+                      height: 35,
+                      decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      child: FittedBox(
+                        child: Text(
+                          widget.name!,
+                          style: TextStyle(
                             color: Style().genderColor(isGirl: widget.isGirl!),
                             fontWeight: FontWeight.w200,
-                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
