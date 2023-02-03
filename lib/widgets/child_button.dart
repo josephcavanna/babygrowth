@@ -142,7 +142,7 @@ class _ChildButtonState extends State<ChildButton> {
                               : height * 0.15),
                     ),
                     Container(
-                      height: 45,
+                      height: orientation == Orientation.portrait ? 45 : height * 0.08,
                       decoration: const BoxDecoration(
                         color: Colors.transparent,
                       ),

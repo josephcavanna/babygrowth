@@ -83,7 +83,7 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
     super.dispose();
   }
 
-   void getCurrentUnit() async {
+  void getCurrentUnit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUnit = prefs.getInt('currentUnit');
   }
@@ -129,6 +129,9 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -159,32 +162,22 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
                   children: [
                     curveGraphWidget(context),
                     profilePhotoWidget(context),
-                    Positioned(
-                      top: MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? 82
-                          : 5,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: babyTitle(),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               );
             }),
             Positioned(
-              bottom: 110,
-              right: 40,
+              bottom: height * 0.15,
+              right: width * 0.10,
               child: FloatingActionButton(
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddEntry(
-                        babyName: widget.babyName, isGirl: widget.isGirl, currentUnit: currentUnit,),
+                      babyName: widget.babyName,
+                      isGirl: widget.isGirl,
+                      currentUnit: currentUnit,
+                    ),
                   ),
                 ),
                 backgroundColor:
@@ -196,10 +189,10 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.height * 0.95
-                  : MediaQuery.of(context).size.height * 0.90,
-              left: MediaQuery.of(context).size.width / 2 - 15,
+              top: orientation == Orientation.portrait
+                  ? height * 0.95
+                  : height * 0.9,
+              left: width / 2 - 15,
               child: Container(
                 height: 25,
                 width: 50,
@@ -211,16 +204,23 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
                   child: SmoothPageIndicator(
                     controller: _pageController,
                     count: 2,
-                    effect: WormEffect(dotColor: Colors.grey[400]!, activeDotColor: Colors.white, dotHeight: 7, dotWidth: 7,),
+                    effect: WormEffect(
+                      dotColor: Colors.grey[400]!,
+                      activeDotColor: Colors.white,
+                      dotHeight: 7,
+                      dotWidth: 7,
+                    ),
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.height * 0.28
-                  : MediaQuery.of(context).size.height * 0.25,
-              left: MediaQuery.of(context).size.width / 1.35,
+              top: orientation == Orientation.portrait
+                  ? height * 0.28
+                  : height * 0.25,
+              left: orientation == Orientation.portrait
+                  ? width / 1.35
+                  : width * 0.85,
               child: SizedBox(
                 height: 50,
                 child: SizedBox(
@@ -238,15 +238,12 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
               ),
             ),
             Positioned(
-              width: MediaQuery.of(context).size.width,
-              top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? 35
-                  : 20,
+              width: width,
+              top: orientation == Orientation.portrait ? 35 : 20,
               child: Padding(
-                padding:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? const EdgeInsets.symmetric(horizontal: 0)
-                        : const EdgeInsets.symmetric(horizontal: 20),
+                padding: orientation == Orientation.portrait
+                    ? const EdgeInsets.symmetric(horizontal: 0)
+                    : const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -261,6 +258,7 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
                 ),
               ),
             ),
+
           ],
         ),
       ),
@@ -268,40 +266,70 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
   }
 
   Positioned profilePhotoWidget(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final photoSize =
+        orientation == Orientation.portrait ? height * 0.18 : height * 0.23;
+        final fontSize = 24.0;
     return Positioned(
-      top: MediaQuery.of(context).orientation == Orientation.portrait
-          ? 117.0
-          : 40,
-      left: MediaQuery.of(context).orientation == Orientation.portrait
-          ? (MediaQuery.of(context).size.width / 2 - 80)
-          : (MediaQuery.of(context).size.width / 2 - 40),
-      child: SizedBox(
-        height: avatarRadius(context),
-        width: avatarRadius(context),
-        child: Hero(
-          tag: widget.babyName!,
-          child: circleAvatarPhoto(),
-        ),
+      top: orientation == Orientation.portrait ? height * 0.08 : 10,
+      left: orientation == Orientation.portrait
+          ? (width / 2 - photoSize / 2)
+          : (width / 2 - photoSize / 2),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              children: [
+                Text(
+                  'Baby',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize,
+                  ),
+                ),
+                Text(
+                  widget.babyName!,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          
+          SizedBox(
+            height: photoSize,
+            width: photoSize,
+            child: Hero(
+              tag: widget.babyName!,
+              child: circleAvatarPhoto(),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Positioned curveGraphWidget(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    final orientation = MediaQuery.of(context).orientation;
     return Positioned(
       bottom: 0,
-      top:
-          MediaQuery.of(context).orientation == Orientation.portrait ? 220 : 90,
+      top: orientation == Orientation.portrait ? height * 0.25 : height * 0.25,
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(75.0),
+              topLeft: Radius.circular(75),
               topRight: Radius.circular(75.0),
             ),
             color: Colors.white),
-        height: MediaQuery.of(context).orientation == Orientation.portrait
-            ? MediaQuery.of(context).size.height * 0.77
-            : MediaQuery.of(context).size.height * 0.78,
-        width: MediaQuery.of(context).size.width,
+        height: height * 0.78,
+        width: width,
         child: Container(
           color: Colors.transparent,
           child: PageView(
@@ -381,12 +409,6 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
     return age <= const Duration(days: 365) ? babyGraph : childGraph;
   }
 
-  double avatarRadius(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait
-        ? 160.0
-        : 80;
-  }
-
   Material circleAvatarPhoto() {
     return Material(
       type: MaterialType.circle,
@@ -404,20 +426,6 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
             : null,
       ),
     );
-  }
-
-  List<Widget> babyTitle() {
-    return [
-      const Text(
-        'Baby',
-        style: TextStyle(color: Colors.white, fontSize: 25),
-      ),
-      Text(
-        widget.babyName!,
-        style: const TextStyle(
-            color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
-      ),
-    ];
   }
 
   StatefulWidget threeDots(BuildContext context) {
@@ -480,7 +488,10 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
                         context,
                         MaterialPageRoute(
                           builder: (context) => LogsListScreen(
-                              babyName: widget.babyName, isGirl: widget.isGirl, currentUnit: currentUnit,),
+                            babyName: widget.babyName,
+                            isGirl: widget.isGirl,
+                            currentUnit: currentUnit,
+                          ),
                         ),
                       );
                     },

@@ -96,6 +96,24 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
             ),
             child: Stack(
               children: <Widget>[
+                Positioned(
+                  right: 0,
+                  top: 50,
+                  child: RotatedBox(
+                    quarterTurns: 1,
+                    child: Text(
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? ''
+                          : 'Height Curve',
+                      style: TextStyle(
+                        color: Colors.deepOrangeAccent[100],
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -105,7 +123,9 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                           ? const EdgeInsets.only(top: 40.0)
                           : const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        'Height Curve',
+                        MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? 'Height Curve' : '',
                         style: TextStyle(
                             color: Colors.deepOrangeAccent[100],
                             fontSize: 14,

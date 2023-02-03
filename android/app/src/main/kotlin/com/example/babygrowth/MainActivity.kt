@@ -1,4 +1,4 @@
-package com.example.babygrowth
+package com.jacavanna.babygrowthApp
 
 import io.flutter.embedding.android.FlutterActivity
 
