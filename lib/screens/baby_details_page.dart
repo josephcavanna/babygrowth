@@ -271,7 +271,6 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
     final height = MediaQuery.of(context).size.height;
     final photoSize =
         orientation == Orientation.portrait ? height * 0.18 : height * 0.23;
-        final fontSize = 24.0;
     return Positioned(
       top: orientation == Orientation.portrait ? height * 0.08 : 10,
       left: orientation == Orientation.portrait
@@ -283,18 +282,18 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Row(
               children: [
-                Text(
+                const Text(
                   'Baby',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: fontSize,
+                    fontSize: 24,
                   ),
                 ),
                 Text(
                   widget.babyName!,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
-                      fontSize: fontSize,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold),
                 ),
               ],
