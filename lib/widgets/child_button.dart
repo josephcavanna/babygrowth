@@ -152,7 +152,8 @@ class _ChildButtonState extends State<ChildButton> {
                           style: TextStyle(
                               color: 
                                   Style().genderColor(isGirl: widget.isGirl!),
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w200,
+                              letterSpacing: -1,
                               ),
                         ),
                       ),
