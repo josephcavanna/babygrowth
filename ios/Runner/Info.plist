@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>BabyGrowth needs access to your photo library to select a photo.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>BabyGrowth needs access to the camera app to take a photo.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

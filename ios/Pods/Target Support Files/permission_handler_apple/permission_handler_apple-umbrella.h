@@ -13,9 +13,11 @@
 #import "PermissionHandlerEnums.h"
 #import "PermissionHandlerPlugin.h"
 #import "PermissionManager.h"
+#import "AppTrackingTransparencyPermissionStrategy.h"
 #import "AudioVideoPermissionStrategy.h"
 #import "BluetoothPermissionStrategy.h"
 #import "ContactPermissionStrategy.h"
+#import "CriticalAlertsPermissionStrategy.h"
 #import "EventPermissionStrategy.h"
 #import "LocationPermissionStrategy.h"
 #import "MediaLibraryPermissionStrategy.h"
@@ -29,6 +31,6 @@
 #import "UnknownPermissionStrategy.h"
 #import "Codec.h"
 
-FOUNDATION_EXPORT double permission_handlerVersionNumber;
-FOUNDATION_EXPORT const unsigned char permission_handlerVersionString[];
+FOUNDATION_EXPORT double permission_handler_appleVersionNumber;
+FOUNDATION_EXPORT const unsigned char permission_handler_appleVersionString[];
 

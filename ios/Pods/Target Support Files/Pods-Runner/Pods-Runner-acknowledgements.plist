@@ -3788,7 +3788,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </string>
 			<key>Title</key>
-			<string>permission_handler</string>
+			<string>permission_handler_apple</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

@@ -28,14 +28,13 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
-  flutter_icons: ^1.1.0
   provider: ^6.0.4
   cloud_firestore: ^4.0.2
   firebase_core: ^2.1.0
   firebase_auth: ^4.0.2
   fl_chart: ^0.55.2
   share_plus: ^6.0.1
-  permission_handler: ^6.1.1
+  permission_handler: ^10.2.0
   modern_form_esys_flutter_share: ^1.1.2
   shared_preferences: ^2.0.15
   smooth_page_indicator: 1.0.0+2
@@ -47,9 +46,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  
+  flutter_launcher_icons: "^0.11.0"
   flutter_native_splash: ^1.1.7+1
   flutter_lints: ^2.0.1
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
+  # min_sdk_android: 21
 
 flutter_native_splash:
   color: '#d4decb'
@@ -69,6 +75,7 @@ flutter:
   assets:
     - assets/LogoText.webp
     - assets/LogoGraphic.webp
+    - assets/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
