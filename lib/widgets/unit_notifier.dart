@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class UnitNotifier extends StatefulWidget with ChangeNotifier {
   UnitNotifier({Key? key}) : super(key: key);
 

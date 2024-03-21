@@ -33,9 +33,9 @@ class _HeightBoysDataState extends State<HeightBoysData> {
   late int? currentUnit;
 
   void getCurrentUnit() async {
+    currentUnit = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUnit = prefs.getInt('currentUnit');
-    print(currentUnit);
   }
 
   @override
@@ -49,7 +49,6 @@ class _HeightBoysDataState extends State<HeightBoysData> {
 
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery.of(context).orientation;
     var ageTypeHB = widget.ageTypeHB;
     List<FlSpot> boysMedianSpots = DataSpots().boysHeightMedianSpots;
     List<FlSpot> boysSdMinusOneSpots = DataSpots().boysHeightSdMinusOneSpots;
@@ -94,40 +93,15 @@ class _HeightBoysDataState extends State<HeightBoysData> {
             }
           }
           return Container(
-            padding: EdgeInsets.only(
-                left: 15,
-                right: 15,
-                bottom: 25,
-                top: MediaQuery.of(context).orientation == Orientation.portrait
-                    ? 25
-                    : 15),
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, bottom: 25, top: 25),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(90),
-                topRight: Radius.circular(90),
-              ),
+                  topLeft: Radius.circular(90), topRight: Radius.circular(90)),
               color: Colors.white,
             ),
             child: Stack(
               children: <Widget>[
-                Positioned(
-                  right: 0,
-                  top: 50,
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Text(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? ''
-                          : 'Height Curve',
-                      style: TextStyle(
-                        color: Colors.deepOrangeAccent[100],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -137,13 +111,10 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                           ? const EdgeInsets.only(top: 40.0)
                           : const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 'Height Curve'
-                            : '',
+                        "Height Curve",
                         style: TextStyle(
                             color: Colors.deepOrangeAccent[100],
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
@@ -186,9 +157,10 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                 drawVerticalLine: true,
                                 drawHorizontalLine: true,
                                 show: true,
-                                getDrawingHorizontalLine: (value) => FlLine(
-                                    color: Colors.black12, strokeWidth: 1),
-                                getDrawingVerticalLine: (value) => FlLine(
+                                getDrawingHorizontalLine: (value) =>
+                                    const FlLine(
+                                        color: Colors.black12, strokeWidth: 1),
+                                getDrawingVerticalLine: (value) => const FlLine(
                                     color: Colors.black12, strokeWidth: 1),
                                 horizontalInterval: currentUnit == 0
                                     ? ageTypeHB == AgeTypeHB.baby
@@ -199,10 +171,10 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                     ageTypeHB == AgeTypeHB.baby ? 1 : 6,
                               ),
                               titlesData: FlTitlesData(
-                                topTitles: AxisTitles(
+                                topTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false),
                                 ),
-                                rightTitles: AxisTitles(
+                                rightTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false),
                                 ),
                                 bottomTitles: AxisTitles(
@@ -353,7 +325,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd-1 boys 0-5 years
                                 LineChartBarData(
@@ -365,7 +337,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd-2 boys 0-5 years
                                 LineChartBarData(
@@ -377,7 +349,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd+1 boys 0-5 years
                                 LineChartBarData(
@@ -389,7 +361,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd+2 boys 0-5 years
                                 LineChartBarData(
@@ -401,7 +373,7 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // Baby Log entries
                                 LineChartBarData(
@@ -415,12 +387,12 @@ class _HeightBoysDataState extends State<HeightBoysData> {
                                     show: false,
                                   ),
                                   dotData: FlDotData(
-                                    show: widget.dotsSwitch,
+                                    show: widget.dotsSwitch!,
                                   ),
                                 )
                               ]),
-                          swapAnimationDuration:
-                              const Duration(milliseconds: 250),
+                          // swapAnimationDuration:
+                          //     const Duration(milliseconds: 250),
                         ),
                       ),
                     ),
@@ -437,15 +409,15 @@ class _HeightBoysDataState extends State<HeightBoysData> {
       // case 0:
       //   return const Text('0');
       case 12:
-        return const Text('1 yr');
+        return const Text('1 year');
       case 24:
-        return const Text('2 yr');
+        return const Text('2 years');
       case 36:
-        return const Text('3 yr');
+        return const Text('3 years');
       case 48:
-        return const Text('4 yr');
+        return const Text('4 years');
       case 60:
-        return const Text('5 yr');
+        return const Text('5 years');
     }
     return const Text('');
   }

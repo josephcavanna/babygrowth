@@ -31,8 +31,9 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
   late int? currentUnit;
 
   void getCurrentUnit() async {
+    currentUnit = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    currentUnit = prefs.getInt('currentUnit');
+    currentUnit = prefs.getInt('currentUnit')!;
   }
 
   @override
@@ -96,24 +97,6 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
             ),
             child: Stack(
               children: <Widget>[
-                Positioned(
-                  right: 0,
-                  top: 50,
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Text(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? ''
-                          : 'Height Curve',
-                      style: TextStyle(
-                        color: Colors.deepOrangeAccent[100],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -123,9 +106,7 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                           ? const EdgeInsets.only(top: 40.0)
                           : const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 'Height Curve' : '',
+                        'Height Curve',
                         style: TextStyle(
                             color: Colors.deepOrangeAccent[100],
                             fontSize: 14,
@@ -153,7 +134,13 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                           LineChartData(
                             minY: currentUnit == 0 ? 40 : 38.1,
                             maxX: ageTypeHG == AgeTypeHG.baby ? 12.001 : 60.01,
-                            maxY: ageTypeHG == AgeTypeHG.baby ?  currentUnit == 0 ? 85.001 : 83.83 : currentUnit == 0 ? 125.001 : 127,
+                            maxY: ageTypeHG == AgeTypeHG.baby
+                                ? currentUnit == 0
+                                    ? 85.001
+                                    : 83.83
+                                : currentUnit == 0
+                                    ? 125.001
+                                    : 127,
                             lineTouchData: LineTouchData(
                               enabled: false,
                               touchCallback: (FlTouchEvent? touchEvent,
@@ -163,19 +150,23 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                             gridData: FlGridData(
                               drawVerticalLine: true,
                               show: true,
-                              getDrawingHorizontalLine: (value) =>
-                                  FlLine(color: Colors.black12, strokeWidth: 1),
-                              getDrawingVerticalLine: (value) =>
-                                  FlLine(color: Colors.black12, strokeWidth: 1),
-                              horizontalInterval: currentUnit == 0 ? ageTypeHG == AgeTypeHG.baby ? 1 : 5 : 2.54,
+                              getDrawingHorizontalLine: (value) => const FlLine(
+                                  color: Colors.black12, strokeWidth: 1),
+                              getDrawingVerticalLine: (value) => const FlLine(
+                                  color: Colors.black12, strokeWidth: 1),
+                              horizontalInterval: currentUnit == 0
+                                  ? ageTypeHG == AgeTypeHG.baby
+                                      ? 1
+                                      : 5
+                                  : 2.54,
                               verticalInterval:
                                   ageTypeHG == AgeTypeHG.baby ? 1 : 6,
                             ),
                             titlesData: FlTitlesData(
-                              topTitles: AxisTitles(
+                              topTitles: const AxisTitles(
                                 sideTitles: SideTitles(showTitles: false),
                               ),
-                              rightTitles: AxisTitles(
+                              rightTitles: const AxisTitles(
                                 sideTitles: SideTitles(showTitles: false),
                               ),
                               bottomTitles: AxisTitles(
@@ -237,52 +228,52 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                                 case 45:
                                                   return const FittedBox(
                                                       child: Text(' 45 cm'));
-                                                  case 50:
+                                                case 50:
                                                   return const FittedBox(
                                                       child: Text(' 50 cm'));
-                                                       case 55:
+                                                case 55:
                                                   return const FittedBox(
                                                       child: Text(' 55 cm'));
                                                 case 60:
                                                   return const FittedBox(
                                                       child: Text(' 60 cm'));
-                                                       case 65:
+                                                case 65:
                                                   return const FittedBox(
                                                       child: Text(' 65 cm'));
                                                 case 70:
                                                   return const FittedBox(
                                                       child: Text(' 70 cm'));
-                                                       case 75:
+                                                case 75:
                                                   return const FittedBox(
                                                       child: Text(' 75 cm'));
                                                 case 80:
                                                   return const FittedBox(
                                                       child: Text(' 80 cm'));
-                                                       case 85:
+                                                case 85:
                                                   return const FittedBox(
                                                       child: Text(' 85 cm'));
                                                 case 90:
                                                   return const FittedBox(
                                                       child: Text(' 90 cm'));
-                                                       case 95:
+                                                case 95:
                                                   return const FittedBox(
                                                       child: Text(' 95 cm'));
                                                 case 100:
                                                   return const FittedBox(
                                                       child: Text('100 cm'));
-                                                       case 105:
+                                                case 105:
                                                   return const FittedBox(
                                                       child: Text('105 cm'));
                                                 case 110:
                                                   return const FittedBox(
                                                       child: Text(' 110 cm'));
-                                                       case 115:
+                                                case 115:
                                                   return const FittedBox(
                                                       child: Text('115 cm'));
                                                 case 120:
                                                   return const FittedBox(
                                                       child: Text('120 cm'));
-                                                      case 125:
+                                                case 125:
                                                   return const FittedBox(
                                                       child: Text('125 cm'));
                                               }
@@ -327,7 +318,7 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                 belowBarData: BarAreaData(
                                   show: false,
                                 ),
-                                dotData: FlDotData(show: false),
+                                dotData: const FlDotData(show: false),
                               ),
 // sd-1 girls 0-5 years
                               LineChartBarData(
@@ -339,7 +330,7 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                 belowBarData: BarAreaData(
                                   show: false,
                                 ),
-                                dotData: FlDotData(show: false),
+                                dotData: const FlDotData(show: false),
                               ),
 // sd-2 girls 0-5 years
                               LineChartBarData(
@@ -351,7 +342,7 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                 belowBarData: BarAreaData(
                                   show: false,
                                 ),
-                                dotData: FlDotData(show: false),
+                                dotData: const FlDotData(show: false),
                               ),
 
 // sd+1 girls 0-5 years
@@ -364,7 +355,7 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                 belowBarData: BarAreaData(
                                   show: false,
                                 ),
-                                dotData: FlDotData(show: false),
+                                dotData: const FlDotData(show: false),
                               ),
 // sd+2 girls 0-5 years
                               LineChartBarData(
@@ -376,7 +367,7 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                 belowBarData: BarAreaData(
                                   show: false,
                                 ),
-                                dotData: FlDotData(show: false),
+                                dotData: const FlDotData(show: false),
                               ),
 
 // Baby Log entries
@@ -391,13 +382,13 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
                                   show: false,
                                 ),
                                 dotData: FlDotData(
-                                  show: widget.dotsSwitch,
+                                  show: widget.dotsSwitch!,
                                 ),
                               )
                             ],
                           ),
-                          swapAnimationDuration:
-                              const Duration(milliseconds: 250),
+                          // swapAnimationDuration:
+                          //     const Duration(milliseconds: 250),
                         ),
                       ),
                     ),
@@ -412,15 +403,15 @@ class _HeightGirlsDataState extends State<HeightGirlsData> {
   Widget otherXAxisTitlesWidget(value, TitleMeta titleMeta) {
     switch (value.toInt()) {
       case 12:
-        return const Text('1 yr');
+        return const Text('1 year');
       case 24:
-        return const Text('2 yr');
+        return const Text('2 years');
       case 36:
-        return const Text('3 yr');
+        return const Text('3 years');
       case 48:
-        return const Text('4 yr');
+        return const Text('4 years');
       case 60:
-        return const Text('5 yr');
+        return const Text('5 years');
     }
     return const Text('');
   }

@@ -32,8 +32,9 @@ class _WeightBoysDataState extends State<WeightBoysData> {
   late int? currentUnit;
 
   void getCurrentUnit() async {
+    currentUnit = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    currentUnit = prefs.getInt('currentUnit');
+    currentUnit = prefs.getInt('currentUnit')!;
   }
 
   @override
@@ -96,24 +97,6 @@ class _WeightBoysDataState extends State<WeightBoysData> {
           ),
           child: Stack(
             children: <Widget>[
-              Positioned(
-                  right: 0,
-                  top: 50,
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Text(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? ''
-                          : 'Weight Curve',
-                      style: TextStyle(
-                        color: Colors.deepOrangeAccent[100],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -123,8 +106,7 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                         ? const EdgeInsets.only(top: 40.0)
                         : const EdgeInsets.only(top: 5.0),
                     child: Text(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? 'Weight Curve' : '',
+                      "Weight Curve",
                       style: TextStyle(
                           color: Colors.deepOrangeAccent[100],
                           fontSize: 14,
@@ -152,7 +134,13 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                         LineChartData(
                           minY: currentUnit == 0 ? 2 : 0,
                           maxX: ageTypeWB == AgeTypeWB.baby ? 12.001 : 60.01,
-                          maxY: ageTypeWB == AgeTypeWB.baby ? currentUnit == 0 ? 13.001 : 13.61 : currentUnit == 0 ? 25.001 : 24.95,
+                          maxY: ageTypeWB == AgeTypeWB.baby
+                              ? currentUnit == 0
+                                  ? 13.001
+                                  : 13.61
+                              : currentUnit == 0
+                                  ? 25.001
+                                  : 24.95,
                           lineTouchData: LineTouchData(
                             enabled: false,
                             touchCallback: (FlTouchEvent? touchEvent,
@@ -163,19 +151,23 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                             drawVerticalLine: true,
                             // drawHorizontalLine: true,
                             show: true,
-                            getDrawingHorizontalLine: (value) =>
-                                FlLine(color: Colors.black12, strokeWidth: 1),
-                            getDrawingVerticalLine: (value) =>
-                                FlLine(color: Colors.black12, strokeWidth: 1),
-                            horizontalInterval: currentUnit == 0 ? ageTypeWB == AgeTypeWB.baby ? 0.5 : 1 : 0.453592,
+                            getDrawingHorizontalLine: (value) => const FlLine(
+                                color: Colors.black12, strokeWidth: 1),
+                            getDrawingVerticalLine: (value) => const FlLine(
+                                color: Colors.black12, strokeWidth: 1),
+                            horizontalInterval: currentUnit == 0
+                                ? ageTypeWB == AgeTypeWB.baby
+                                    ? 0.5
+                                    : 1
+                                : 0.453592,
                             verticalInterval:
                                 ageTypeWB == AgeTypeWB.baby ? 1 : 6,
                           ),
                           titlesData: FlTitlesData(
-                            topTitles: AxisTitles(
+                            topTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false),
                             ),
-                            rightTitles: AxisTitles(
+                            rightTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false),
                             ),
                             bottomTitles: AxisTitles(
@@ -240,18 +232,16 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                                                 return const FittedBox(
                                                   child: Text('13 kg'),
                                                 );
-                                            
                                             }
                                             return const Text('');
                                           }
                                         : (value, meta) {
-                                           return FittedBox(
+                                            return FittedBox(
                                               child: Text(
                                                 '${(value * 2.205).toStringAsFixed(0)} lb',
                                               ),
                                             );
-                                            
-                                        }
+                                          }
                                     : currentUnit == 0
                                         ? (value, titleMeta) {
                                             switch (value.toInt()) {
@@ -318,7 +308,7 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                               belowBarData: BarAreaData(
                                 show: false,
                               ),
-                              dotData: FlDotData(show: false),
+                              dotData: const FlDotData(show: false),
                             ),
 // sd-1 boys 0-5 years
                             LineChartBarData(
@@ -330,7 +320,7 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                               belowBarData: BarAreaData(
                                 show: false,
                               ),
-                              dotData: FlDotData(show: false),
+                              dotData: const FlDotData(show: false),
                             ),
 // sd-2 boys 0-5 years
                             LineChartBarData(
@@ -342,7 +332,7 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                               belowBarData: BarAreaData(
                                 show: false,
                               ),
-                              dotData: FlDotData(show: false),
+                              dotData: const FlDotData(show: false),
                             ),
 // sd+1 boys 0-5 years
                             LineChartBarData(
@@ -354,7 +344,7 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                               belowBarData: BarAreaData(
                                 show: false,
                               ),
-                              dotData: FlDotData(show: false),
+                              dotData: const FlDotData(show: false),
                             ),
 // sd+2 boys 0-5 years
                             LineChartBarData(
@@ -366,7 +356,7 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                               belowBarData: BarAreaData(
                                 show: false,
                               ),
-                              dotData: FlDotData(show: false),
+                              dotData: const FlDotData(show: false),
                             ),
 // Baby Log entries
                             LineChartBarData(
@@ -380,13 +370,13 @@ class _WeightBoysDataState extends State<WeightBoysData> {
                                 show: false,
                               ),
                               dotData: FlDotData(
-                                show: widget.dotsSwitch,
+                                show: widget.dotsSwitch!,
                               ),
                             )
                           ],
                         ),
-                        swapAnimationDuration:
-                            const Duration(milliseconds: 250),
+                        // swapAnimationDuration:
+                        //     const Duration(milliseconds: 250),
                       ),
                     ),
                   ),

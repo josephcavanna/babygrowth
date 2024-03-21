@@ -45,8 +45,10 @@ double? newHeightInches;
 double? newHeightInchestoCm;
 
 class _LogEntryItemState extends State<LogEntryItem> {
-  final auth = FirebaseAuth.instance;
-  final firestore = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,26 +58,8 @@ class _LogEntryItemState extends State<LogEntryItem> {
     String formattedDateUS = DateFormat('MM-dd-yyyy').format(
         DateTime.fromMillisecondsSinceEpoch(
             widget.date!.millisecondsSinceEpoch));
-    var entryFileDate =
-        DateTime.fromMillisecondsSinceEpoch(widget.date!.millisecondsSinceEpoch)
-            .toString();
-    var entryFile = firestore
-        .collection(auth.currentUser!.uid)
-        .doc(widget.name)
-        .collection('entries')
-        .doc(entryFileDate);
-
-    String? birthDay;
-
-    var docName = firestore.collection(auth.currentUser!.uid).doc(widget.name);
-    docName.get().then((DocumentSnapshot doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      final birthdayTimeStamp = data['birthday'];
-      final birthday = DateTime.fromMillisecondsSinceEpoch(
-              birthdayTimeStamp.millisecondsSinceEpoch)
-          .toString();
-      birthDay = birthday;
-    });
+    final auth = FirebaseAuth.instance;
+    final firestore = FirebaseFirestore.instance;
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
@@ -85,7 +69,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              width: 100,
+              width: 109,
               height: 35,
               color: Colors.transparent,
               child: Center(
@@ -102,7 +86,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
             ),
             widget.currentUnit == 0
                 ? Container(
-                    width: 75,
+                    width: 80,
                     height: 35,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
@@ -115,7 +99,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
                   )
                 : imperialWeightWidget(),
             Container(
-              width: widget.currentUnit == 0 ? 75 : 50,
+              width: widget.currentUnit == 0 ? 80 : 50,
               height: 35,
               decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -173,43 +157,34 @@ class _LogEntryItemState extends State<LogEntryItem> {
                 IconButton(
                   icon: const Icon(Icons.delete_outline_sharp),
                   visualDensity: VisualDensity.compact,
-                  onPressed: () => birthDay != entryFileDate
-                      ? showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: const Text(
-                                    'Are you sure you want to delete this entry?'),
-                                actions: [
-                                  TextButton(
-                                      child: const Text('Delete'),
-                                      onPressed: () {
-                                        print(birthDay);
-                                        print(entryFileDate);
-                                        if (birthDay != entryFileDate) {
-                                          entryFile.delete();
-                                        }
-                                        Navigator.pop(context);
-                                      }),
-                                  TextButton(
-                                    child: const Text('No'),
-                                    onPressed: () => Navigator.pop(context),
-                                  ),
-                                ],
-                              ))
-                      : showDialog(
-                          context: context,
-                          builder: ((context) => AlertDialog(
-                                title: Text(
-                                    'You can\'t delete ${widget.name!}\'s birthday entry'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('Go back'),
-                                  ),
-                                ],
-                              )),
-                        ),
-                )
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: const Text(
+                                'Are you sure you want to delete this entry?'),
+                            actions: [
+                              TextButton(
+                                  child: const Text('Delete'),
+                                  onPressed: () {
+                                    firestore
+                                        .collection(auth.currentUser!.uid)
+                                        .doc(widget.name)
+                                        .collection('entries')
+                                        .doc(
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                    widget.date!
+                                                        .millisecondsSinceEpoch)
+                                                .toString())
+                                        .delete();
+                                    Navigator.pop(context);
+                                  }),
+                              TextButton(
+                                child: const Text('No'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          )),
+                ),
               ],
             ),
           ],
@@ -224,7 +199,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
       children: [
         Container(
           height: 35,
-          width: 100,
+          width: 55,
           decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border.all(
@@ -234,7 +209,7 @@ class _LogEntryItemState extends State<LogEntryItem> {
             child: FittedBox(
               child: Text(
                 widget.weightPounds != null
-                    ? '${widget.weightPounds!.toStringAsFixed(0)} lb ${widget.weightOunces!.round()} oz'
+                    ? '${widget.weightPounds!.toStringAsFixed(0)} lb'
                     : '-',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -243,6 +218,30 @@ class _LogEntryItemState extends State<LogEntryItem> {
             ),
           ),
         ),
+        const SizedBox(
+          width: 3,
+        ),
+        Container(
+          height: 35,
+          width: 55,
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(
+                  color: widget.isGirl == true ? Colors.pink : Colors.blue,
+                  width: 2)),
+          child: Center(
+            child: FittedBox(
+              child: Text(
+                widget.weightOunces != null
+                    ? '${widget.weightOunces!.round()} oz'
+                    : '-',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: widget.isGirl == true ? Colors.pink : Colors.blue),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -365,10 +364,10 @@ class _LogEntryItemState extends State<LogEntryItem> {
         hintText: 'Enter pounds',
         hintStyle: TextStyle(color: Colors.grey[400]),
       ),
-      keyboardType: const TextInputType.numberWithOptions(decimal: false),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.center,
       onChanged: (newValue) {
-        newWeightPounds = double.parse(newValue);
+        newWeightPounds = double.parse(newValue.replaceAll(RegExp(r','), '.'));
         newWeightPoundsToKg = (newWeightPounds ?? 0) / 2.205;
       },
     );
@@ -380,10 +379,10 @@ class _LogEntryItemState extends State<LogEntryItem> {
         hintText: 'Enter ounces',
         hintStyle: TextStyle(color: Colors.grey[400]),
       ),
-      keyboardType: const TextInputType.numberWithOptions(decimal: false),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.center,
       onChanged: (newValue) {
-        newWeightOunces = double.parse(newValue);
+        newWeightOunces = double.parse(newValue.replaceAll(RegExp(r','), '.'));
         newWeightOuncestoKg = (newWeightOunces ?? 0) / 35.274;
       },
     );

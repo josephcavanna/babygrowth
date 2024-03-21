@@ -31,8 +31,9 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
   late int? currentUnit;
 
   void getCurrentUnit() async {
+    currentUnit = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    currentUnit = prefs.getInt('currentUnit');
+    currentUnit = prefs.getInt('currentUnit')!;
   }
 
   @override
@@ -95,24 +96,6 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
             ),
             child: Stack(
               children: <Widget>[
-                Positioned(
-                  right: 0,
-                  top: 50,
-                  child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Text(
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? ''
-                          : 'Weight Curve',
-                      style: TextStyle(
-                        color: Colors.deepOrangeAccent[100],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
@@ -122,9 +105,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                           ? const EdgeInsets.only(top: 40.0)
                           : const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        MediaQuery.of(context).orientation ==
-                                Orientation.portrait
-                            ? 'Weight Curve' : '',
+                        'Weight Curve',
                         style: TextStyle(
                             color: Colors.deepOrangeAccent[100],
                             fontSize: 14,
@@ -152,7 +133,13 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                           LineChartData(
                               minY: currentUnit == 0 ? 2 : 0,
                               maxX: ageTypeWG == AgeTypeWG.baby ? 12.01 : 60.01,
-                              maxY: ageTypeWG == AgeTypeWG.baby ? currentUnit == 0 ? 13.001 : 13.61 : currentUnit == 0 ? 25.001 : 24.95,
+                              maxY: ageTypeWG == AgeTypeWG.baby
+                                  ? currentUnit == 0
+                                      ? 13.001
+                                      : 13.61
+                                  : currentUnit == 0
+                                      ? 25.001
+                                      : 24.95,
                               lineTouchData: LineTouchData(
                                 enabled: false,
                                 touchCallback: (FlTouchEvent? touchEvent,
@@ -162,20 +149,24 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                               gridData: FlGridData(
                                 drawVerticalLine: true,
                                 show: true,
-                                getDrawingHorizontalLine: (value) => FlLine(
+                                getDrawingHorizontalLine: (value) =>
+                                    const FlLine(
+                                        color: Colors.black12, strokeWidth: 1),
+                                getDrawingVerticalLine: (value) => const FlLine(
                                     color: Colors.black12, strokeWidth: 1),
-                                getDrawingVerticalLine: (value) => FlLine(
-                                    color: Colors.black12, strokeWidth: 1),
-                                horizontalInterval:
-                                    currentUnit == 0 ? ageTypeWG == AgeTypeWG.baby ? 0.5 : 1 : 0.453592,
+                                horizontalInterval: currentUnit == 0
+                                    ? ageTypeWG == AgeTypeWG.baby
+                                        ? 0.5
+                                        : 1
+                                    : 0.453592,
                                 verticalInterval:
                                     ageTypeWG == AgeTypeWG.baby ? 1 : 6,
                               ),
                               titlesData: FlTitlesData(
-                                topTitles: AxisTitles(
+                                topTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false),
                                 ),
-                                rightTitles: AxisTitles(
+                                rightTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false),
                                 ),
                                 bottomTitles: AxisTitles(
@@ -240,7 +231,6 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                                     return const FittedBox(
                                                       child: Text('13 kg'),
                                                     );
-                                                  
                                                 }
                                                 return const Text('');
                                               }
@@ -317,7 +307,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd-1 girls 0-5 years
                                 LineChartBarData(
@@ -329,7 +319,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd-2 girls 0-5 years
                                 LineChartBarData(
@@ -341,7 +331,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 
 // sd+1 girls 0-5 years
@@ -354,7 +344,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 // sd+2 girls 0-5 years
                                 LineChartBarData(
@@ -366,7 +356,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                   belowBarData: BarAreaData(
                                     show: false,
                                   ),
-                                  dotData: FlDotData(show: false),
+                                  dotData: const FlDotData(show: false),
                                 ),
 
 // Baby Log entries
@@ -381,7 +371,7 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
                                     show: false,
                                   ),
                                   dotData: FlDotData(
-                                    show: widget.dotsSwitch,
+                                    show: widget.dotsSwitch!,
                                   ),
                                 )
                               ]),
@@ -399,15 +389,15 @@ class _WeightGirlsDataState extends State<WeightGirlsData> {
   Widget otherXAxisTitlesWidget(value, TitleMeta titleMeta) {
     switch (value.toInt()) {
       case 12:
-        return const Text('1 yr');
+        return const Text('1 year');
       case 24:
-        return const Text('2 yr');
+        return const Text('2 years');
       case 36:
-        return const Text('3 yr');
+        return const Text('3 years');
       case 48:
-        return const Text('4 yr');
+        return const Text('4 years');
       case 60:
-        return const Text('5 yr');
+        return const Text('5 years');
     }
     return const Text('');
   }

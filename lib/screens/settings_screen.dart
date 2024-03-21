@@ -64,10 +64,10 @@ class _AccountScreenState extends State<AccountScreen> {
               elevation: 3,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(radius)),
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
+              child: const Padding(
+                padding: EdgeInsets.all(30.0),
                 child: Column(
-                  children: const [
+                  children: [
                     Text(
                       'Disclaimer',
                       style: TextStyle(
@@ -94,7 +94,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  UnitNotifier(),
+                  UnitNotifier()
+                  
                 ],
               ),
             ),
@@ -173,8 +174,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                       () {
                                     Navigator.of(context).pop(true);
                                   });
-                                  return AlertDialog(
-                                    shape: const RoundedRectangleBorder(
+                                  return const AlertDialog(
+                                    shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(75.0),
                                       ),
@@ -182,7 +183,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     backgroundColor: Colors.white70,
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
-                                      children: const [
+                                      children: [
                                         Text('Data successfully deleted.',
                                             textAlign: TextAlign.center),
                                       ],

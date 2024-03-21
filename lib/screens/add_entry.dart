@@ -9,8 +9,7 @@ class AddEntry extends StatefulWidget {
   final String? babyName;
   final bool? isGirl;
   final int? currentUnit;
-  const AddEntry({Key? key, this.babyName, this.isGirl, this.currentUnit})
-      : super(key: key);
+  const AddEntry({Key? key, this.babyName, this.isGirl, this.currentUnit}) : super(key: key);
 
   static const String id = 'add_entry';
 
@@ -27,15 +26,13 @@ class _AddEntryState extends State<AddEntry> {
   double? weightPounds;
   double? weightOunces;
   DateTime? _entryDate;
-  double? height;
-  double? weight;
 
   @override
   void initState() {
     print(widget.currentUnit);
     super.initState();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,16 +45,21 @@ class _AddEntryState extends State<AddEntry> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              widget.currentUnit == 0
-                  ? enterWeightMetric()
-                  : enterWeightImperial(),
-              widget.currentUnit == 0
-                  ? enterHeightMetric()
-                  : enterHeightImperial(),
+              widget.currentUnit == 0 ? enterWeightMetric() : enterWeightImperial(),
+              widget.currentUnit == 0 ? enterHeightMetric() : enterHeightImperial(),
               pickDateWidget(),
-              addButton(
-                context: context,
-              ),
+              widget.currentUnit == 0
+                  ? addButton(
+                      context: context,
+                      heightUnit: heightCm,
+                      weightUnit: weightKg,
+                    )
+                  : addButton(
+                      context: context,
+                      heightUnit: heightInches,
+                      weightUnit: weightPounds,
+                      weightUnitAdd: weightOunces,
+                    ),
             ],
           ),
         ),
@@ -70,7 +72,10 @@ class _AddEntryState extends State<AddEntry> {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(75.0),
+        ),
+        color: Colors.grey[200],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -96,9 +101,6 @@ class _AddEntryState extends State<AddEntry> {
                 onChanged: (newValue) {
                   weightKg =
                       double.parse(newValue.replaceAll(RegExp(r','), '.'));
-                  weight = weightKg;
-                  print('weightKg: $weightKg');
-                  print('weight: $weight');
                 },
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
@@ -117,7 +119,10 @@ class _AddEntryState extends State<AddEntry> {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(),
+        color: Colors.grey[200],
+        borderRadius: const BorderRadius.all(
+          Radius.circular(75.0),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,9 +145,6 @@ class _AddEntryState extends State<AddEntry> {
               child: TextField(
                 onChanged: (newValue) {
                   heightCm = double.parse(newValue);
-                  height = heightCm;
-                  print('heightCm: $heightCm');
-                  print(height);
                 },
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
@@ -158,13 +160,14 @@ class _AddEntryState extends State<AddEntry> {
   }
 
   Container enterWeightImperial() {
-    double? weightPoundsToKg;
-    double? weightOuncesToKg = 0;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(75.0),
+        ),
+        color: Colors.grey[200],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -183,16 +186,13 @@ class _AddEntryState extends State<AddEntry> {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(left: 5, right: 10.0),
+              padding: const EdgeInsets.only(right: 25.0),
               child: TextField(
-                keyboardType: TextInputType.number,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 onChanged: (newValue) {
-                  weightPounds = double.parse(newValue);
-                  weightPoundsToKg = weightPounds! / 2.205;
-                  weight = weightOuncesToKg! + weightPoundsToKg!;
-                  print('weightPounds: $weightPounds');
-                  print('weightPoundstoKG: $weightPoundsToKg');
-                  print('weight: $weight');
+                  weightPounds =
+                      double.parse(newValue.replaceAll(RegExp(r','), '.'));
                 },
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
@@ -204,16 +204,13 @@ class _AddEntryState extends State<AddEntry> {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.only(right: 5.0),
+              padding: const EdgeInsets.only(right: 25.0),
               child: TextField(
-                keyboardType: TextInputType.number,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 onChanged: (newValue) {
-                  weightOunces = double.parse(newValue);
-                  weightOuncesToKg = weightOunces! / 35.274;
-                  weight = weightPoundsToKg! + weightOuncesToKg!;
-                  print('weightOunces: $weightOunces');
-                  print('weightOuncestoKG: $weightOuncesToKg');
-                  print('weight: $weight');
+                  weightOunces =
+                      double.parse(newValue.replaceAll(RegExp(r','), '.'));
                 },
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
@@ -228,12 +225,14 @@ class _AddEntryState extends State<AddEntry> {
   }
 
   Container enterHeightImperial() {
-    double? heightInchestoCm;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(),
+        color: Colors.grey[200],
+        borderRadius: const BorderRadius.all(
+          Radius.circular(75.0),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,17 +254,10 @@ class _AddEntryState extends State<AddEntry> {
               padding: const EdgeInsets.only(right: 25.0),
               child: TextField(
                 onChanged: (newValue) {
-                  heightInches =
-                      double.parse(newValue.replaceAll(RegExp(r','), '.'));
-                  heightInchestoCm = heightInches! * 2.54;
-                  height = heightInchestoCm;
-                  print('heightInches: $heightInches');
-                  print('heightInchestoCm: $heightInchestoCm');
-                  print('height: $height');
+                  heightInches = double.parse(newValue);
                 },
                 textAlign: TextAlign.center,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   hintText: 'Enter height in inches',
                 ),
@@ -277,24 +269,27 @@ class _AddEntryState extends State<AddEntry> {
     );
   }
 
-  Container addButton({
-    BuildContext? context,
-  }) {
+  Container addButton(
+      {BuildContext? context,
+      double? heightUnit,
+      double? weightUnit,
+      double? weightUnitAdd}) {
+    var height = widget.currentUnit == 0 ? heightUnit : (heightUnit ?? 0) * 2.54;
+    var weight = widget.currentUnit == 0
+        ? weightUnit
+        : (weightUnit ?? 0) / 2.205 + (weightUnitAdd ?? 0) / 35.274;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(),
+        color: Colors.grey[200],
+        borderRadius: const BorderRadius.all(
+          Radius.circular(75.0),
+        ),
       ),
       child: MaterialButton(
-        child: const Text(
-          'Add',
-          style: TextStyle(fontSize: 18),
-        ),
+        child: const Text('Add'),
         onPressed: () {
-          print('height: $height');
-          print('weight: $weight');
-          print('entrydate: $_entryDate');
           if (_entryDate == null) {
             showDialog(
               context: context!,
@@ -303,20 +298,20 @@ class _AddEntryState extends State<AddEntry> {
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Go back'),
+                    child: const Text('Try Again'),
                   ),
                 ],
               ),
             );
-          } else if (height == null && weight == null) {
+          } else if (height == null || weight == null) {
             showDialog(
               context: context!,
               builder: (context) => AlertDialog(
-                title: const Text('Please enter new weight or height'),
+                title: const Text('Please enter a weight or height entry'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Go back'),
+                    child: const Text('Try Again'),
                   ),
                 ],
               ),
@@ -333,6 +328,22 @@ class _AddEntryState extends State<AddEntry> {
               'weight': weight,
             });
           }
+          if (height != null && weight != null) {
+            _firestore
+                .collection(_auth.currentUser!.uid)
+                .doc(widget.babyName)
+                .update({'height': height, 'weight': weight});
+          } else if (height != null) {
+            _firestore
+                .collection(_auth.currentUser!.uid)
+                .doc(widget.babyName)
+                .update({'height': height});
+          } else if (weight != null) {
+            _firestore
+                .collection(_auth.currentUser!.uid)
+                .doc(widget.babyName)
+                .update({'weight': weight});
+          }
           Navigator.pop(context!);
         },
       ),
@@ -344,7 +355,10 @@ class _AddEntryState extends State<AddEntry> {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(),
+        color: Colors.grey[200],
+        borderRadius: const BorderRadius.all(
+          Radius.circular(75.0),
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

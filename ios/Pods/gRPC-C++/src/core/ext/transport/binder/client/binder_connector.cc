@@ -28,8 +28,8 @@
 
 #include <grpcpp/security/binder_security_policy.h>
 
-#include "src/core/ext/filters/client_channel/connector.h"
-#include "src/core/ext/filters/client_channel/subchannel.h"
+#include "src/core/client_channel/connector.h"
+#include "src/core/client_channel/subchannel.h"
 #include "src/core/ext/transport/binder/client/endpoint_binder_pool.h"
 #include "src/core/ext/transport/binder/client/security_policy_setting.h"
 #include "src/core/ext/transport/binder/transport/binder_transport.h"
@@ -80,11 +80,11 @@ class BinderConnector : public grpc_core::SubchannelConnector {
 
   void OnConnected(std::unique_ptr<grpc_binder::Binder> endpoint_binder) {
     GPR_ASSERT(endpoint_binder != nullptr);
-    grpc_transport* transport = grpc_create_binder_transport_client(
+    grpc_core::Transport* transport = grpc_create_binder_transport_client(
         std::move(endpoint_binder),
         grpc_binder::GetSecurityPolicySetting()->Get(conn_id_));
     GPR_ASSERT(transport != nullptr);
-    result_->channel_args = grpc_channel_args_copy(args_.channel_args);
+    result_->channel_args = args_.channel_args;
     result_->transport = transport;
 
     GPR_ASSERT(notify_ != nullptr);
@@ -92,14 +92,14 @@ class BinderConnector : public grpc_core::SubchannelConnector {
     // might be invoked from non-gRPC code
     if (grpc_core::ExecCtx::Get() == nullptr) {
       grpc_core::ExecCtx exec_ctx;
-      grpc_core::ExecCtx::Run(DEBUG_LOCATION, notify_, GRPC_ERROR_NONE);
+      grpc_core::ExecCtx::Run(DEBUG_LOCATION, notify_, absl::OkStatus());
     } else {
-      grpc_core::ExecCtx::Run(DEBUG_LOCATION, notify_, GRPC_ERROR_NONE);
+      grpc_core::ExecCtx::Run(DEBUG_LOCATION, notify_, absl::OkStatus());
     }
 
     Unref();  // Was referenced in BinderConnector::Connect
   }
-  void Shutdown(grpc_error_handle error) override { (void)error; }
+  void Shutdown(grpc_error_handle /*error*/) override {}
 
  private:
   Args args_;
@@ -114,18 +114,11 @@ class BinderConnector : public grpc_core::SubchannelConnector {
 namespace grpc_core {
 
 RefCountedPtr<Subchannel> BinderClientChannelFactory::CreateSubchannel(
-    const grpc_resolved_address& address, const grpc_channel_args* args) {
+    const grpc_resolved_address& address, const ChannelArgs& args) {
   gpr_log(GPR_INFO, "BinderClientChannelFactory creating subchannel %p", this);
-  grpc_arg default_authority_arg = grpc_channel_arg_string_create(
-      const_cast<char*>(GRPC_ARG_DEFAULT_AUTHORITY),
-      const_cast<char*>("binder.authority"));
-  grpc_channel_args* new_args =
-      grpc_channel_args_copy_and_add(args, &default_authority_arg, 1);
-
-  RefCountedPtr<Subchannel> s =
-      Subchannel::Create(MakeOrphanable<BinderConnector>(), address, new_args);
-
-  return s;
+  return Subchannel::Create(
+      MakeOrphanable<BinderConnector>(), address,
+      args.Set(GRPC_ARG_DEFAULT_AUTHORITY, "binder.authority"));
 }
 
 }  // namespace grpc_core

@@ -77,9 +77,7 @@ class _LogsListScreenState extends State<LogsListScreen> {
                       'Are you sure you want to delete this log entry?'),
                   actions: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.pop(context),
                       child: const Text('No'),
                     ),
                     TextButton(

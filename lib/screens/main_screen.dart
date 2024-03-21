@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.child_care), label: 'Baby List'),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.settings), label: 'Preferences')
+              icon: Icon(CupertinoIcons.settings), label: 'Settings')
         ],
       ),
       body: currentPage,

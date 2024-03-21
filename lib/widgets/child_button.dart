@@ -42,12 +42,9 @@ class _ChildButtonState extends State<ChildButton> {
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          bottom: 10),
+      padding:
+          const EdgeInsets.only(top: 10.0, left: 20, right: 20, bottom: 10),
       child: Center(
         child: Dismissible(
           background: Container(
@@ -100,66 +97,66 @@ class _ChildButtonState extends State<ChildButton> {
             ),
           ),
           key: Key(widget.babyID!),
-          child: GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BabyDetailsPage(
-                  babyImage: widget.babyImage!,
-                  babyID: widget.babyID!,
-                  weight: widget.weight!,
-                  height: widget.height!,
-                  babyName: widget.name!,
-                  isGirl: widget.isGirl!,
-                  age: DateTime.now()
-                          .difference(DateTime.fromMillisecondsSinceEpoch(
-                              widget.age!.millisecondsSinceEpoch))
-                          .inDays /
-                      30,
-                  birthDay: widget.age!,
-                ),
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
               ),
             ),
-            child: Container(
-              width: orientation == Orientation.portrait ? width : null,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.7),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: Padding(
-                padding: orientation == Orientation.portrait ? const EdgeInsets.only(
-                    left: 18.0, right: 18.0, top: 10.0, bottom: 5) : const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Hero(
-                      tag: widget.name!,
-                      child: profilePhoto(
-                          profileRadius: orientation == Orientation.portrait
-                              ? height * 0.09
-                              : height * 0.15),
-                    ),
-                    Container(
-                      height: orientation == Orientation.portrait ? 45 : height * 0.08,
-                      decoration: const BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                      child: FittedBox(
-                        child: Text(
-                          widget.name!,
-                          style: TextStyle(
-                              color: 
-                                  Style().genderColor(isGirl: widget.isGirl!),
-                              fontWeight: FontWeight.w200,
-                              letterSpacing: -1,
-                              ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BabyDetailsPage(
+                          babyImage: widget.babyImage!,
+                          babyID: widget.babyID!,
+                          weight: widget.weight!,
+                          height: widget.height!,
+                          babyName: widget.name!,
+                          isGirl: widget.isGirl!,
+                          age: DateTime.now()
+                                  .difference(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          widget.age!.millisecondsSinceEpoch))
+                                  .inDays /
+                              30,
+                          birthDay: widget.age!,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                    child: Hero(
+                      tag: widget.name!,
+                      child: profilePhoto(
+                          profileRadius: orientation == Orientation.portrait
+                              ? height * 0.1
+                              : height * 0.18),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    width: 100,
+                    height: 35,
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: FittedBox(
+                      child: Text(
+                        widget.name!,
+                        style: TextStyle(
+                            color: Style().genderColor(isGirl: widget.isGirl!),
+                            fontWeight: FontWeight.w200),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -175,7 +172,7 @@ class _ChildButtonState extends State<ChildButton> {
       elevation: 4,
       child: CircleAvatar(
         radius: profileRadius,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         backgroundImage: const AssetImage('assets/LogoGraphic.webp'),
         foregroundImage: FileImage(widget.babyImage!),
       ),

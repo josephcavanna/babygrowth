@@ -11,7 +11,6 @@ class AddBaby extends StatefulWidget {
   final int? currentUnit;
   const AddBaby({required this.currentUnit, Key? key}) : super(key: key);
 
-
   @override
   State<AddBaby> createState() => _AddBabyState();
 }
@@ -43,7 +42,7 @@ class _AddBabyState extends State<AddBaby> {
     _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
   }
 
-@override
+  @override
   void initState() {
     print(widget.currentUnit);
     super.initState();
@@ -71,7 +70,9 @@ class _AddBabyState extends State<AddBaby> {
           minWidth: MediaQuery.of(context).size.width,
           color: Colors.transparent,
           onPressed: () {
-            if (babyName == null || babyHeight == null || (babyWeightPounds == null && babyWeightKg == null)) {
+            if (babyName == null ||
+                babyHeight == null ||
+                (babyWeightPounds == null && babyWeightKg == null)) {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -85,13 +86,17 @@ class _AddBabyState extends State<AddBaby> {
                 ),
               );
             } else {
-              babyWeightUsCustomary = (babyWeightPounds ?? 0) / 2.205 + (babyWeightOunces ?? 0) / 35.274;
-              widget.currentUnit == 0 ? babyWeight = babyWeightKg : babyWeight = babyWeightUsCustomary;
+              babyWeightUsCustomary = (babyWeightPounds ?? 0) / 2.205 +
+                  (babyWeightOunces ?? 0) / 35.274;
+              widget.currentUnit == 0
+                  ? babyWeight = babyWeightKg
+                  : babyWeight = babyWeightUsCustomary;
               _firestore.collection(_auth.currentUser!.uid).doc(babyName).set({
                 'birthday': _birthDay,
                 'name': babyName,
                 'gender': isGirl,
-                'height': widget.currentUnit == 0 ? babyHeight : (babyHeight! * 2.54),
+                'height':
+                    widget.currentUnit == 0 ? babyHeight : (babyHeight! * 2.54),
                 'weight': babyWeight,
                 'date': DateTime.now(),
               });
@@ -104,7 +109,8 @@ class _AddBabyState extends State<AddBaby> {
                       .toString())
                   .set({
                 'date': _birthDay,
-                'height': widget.currentUnit == 0 ? babyHeight : (babyHeight! * 2.54),
+                'height':
+                    widget.currentUnit == 0 ? babyHeight : (babyHeight! * 2.54),
                 'weight': babyWeight,
               });
               Navigator.pop(context);
@@ -140,8 +146,7 @@ class _AddBabyState extends State<AddBaby> {
               colorScheme: const ColorScheme.light(primary: Colors.black),
             ),
             child: Stepper(
-              controlsBuilder: (BuildContext context,
-                  ControlsDetails details) {
+              controlsBuilder: (BuildContext context, ControlsDetails details) {
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Row(
@@ -199,7 +204,9 @@ class _AddBabyState extends State<AddBaby> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                widget.currentUnit == 0 ? enterMetricWeight(borderColor) : enterImperialWeight(borderColor),
+                widget.currentUnit == 0
+                    ? enterMetricWeight(borderColor)
+                    : enterImperialWeight(borderColor),
                 Step(
                   title: const Text('Height at birth'),
                   content: TextField(
@@ -214,7 +221,9 @@ class _AddBabyState extends State<AddBaby> {
                           borderSide:
                               BorderSide(color: borderColor, width: 1.3),
                         ),
-                        hintText: widget.currentUnit == 0 ? 'Enter height in cm' : 'Enter height in inches',
+                        hintText: widget.currentUnit == 0
+                            ? 'Enter height in cm'
+                            : 'Enter height in inches',
                         hintStyle: const TextStyle(color: Colors.grey)),
                     onChanged: (newValue) =>
                         babyHeight = double.parse(newValue),
@@ -335,79 +344,72 @@ class _AddBabyState extends State<AddBaby> {
 
   Step enterMetricWeight(Color borderColor) {
     return Step(
-                title: const Text('Weight at birth'),
-                content: TextField(
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: borderColor, width: 1.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: borderColor, width: 2.0),
-                      ),
-                      hintText: 'Enter kilograms',
-                      hintStyle: const TextStyle(color: Colors.grey)),
-                  onChanged: (newValue) => babyWeightKg =
-                      double.parse(newValue.replaceAll(RegExp(r','), '.')),
-                  textAlign: TextAlign.center,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                ),
-              );
+      title: const Text('Weight at birth'),
+      content: TextField(
+        decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: borderColor, width: 1.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: borderColor, width: 2.0),
+            ),
+            hintText: 'Enter kilograms',
+            hintStyle: const TextStyle(color: Colors.grey)),
+        onChanged: (newValue) =>
+            babyWeightKg = double.parse(newValue.replaceAll(RegExp(r','), '.')),
+        textAlign: TextAlign.center,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      ),
+    );
   }
 
   Step enterImperialWeight(Color borderColor) {
     return Step(
-                title: const Text('Weight at birth'),
-                content: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: borderColor, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: borderColor, width: 2.0),
-                          ),
-                          hintText: 'Enter pounds',
-                          hintStyle: const TextStyle(color: Colors.grey)),
-                      onChanged: (newValue) => babyWeightPounds =
-                          double.parse(newValue.replaceAll(RegExp(r','), '.')),
-                      textAlign: TextAlign.center,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    const SizedBox(height: 10,),
-                    TextField(
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 20.0),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: borderColor, width: 1.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: borderColor, width: 2.0),
-                          ),
-                          hintText: 'Enter ounces',
-                          hintStyle: const TextStyle(color: Colors.grey)),
-                      onChanged: (newValue) => babyWeightOunces =
-                          double.parse(newValue.replaceAll(RegExp(r','), '.')),
-                      textAlign: TextAlign.center,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                    ),
-                  ],
+      title: const Text('Weight at birth'),
+      content: Column(
+        children: [
+          TextField(
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 20.0),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: borderColor, width: 1.0),
                 ),
-              );
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: borderColor, width: 2.0),
+                ),
+                hintText: 'Enter pounds',
+                hintStyle: const TextStyle(color: Colors.grey)),
+            onChanged: (newValue) => babyWeightPounds =
+                double.parse(newValue.replaceAll(RegExp(r','), '.')),
+            textAlign: TextAlign.center,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextField(
+            decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 20.0),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: borderColor, width: 1.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: borderColor, width: 2.0),
+                ),
+                hintText: 'Enter ounces',
+                hintStyle: const TextStyle(color: Colors.grey)),
+            onChanged: (newValue) => babyWeightOunces =
+                double.parse(newValue.replaceAll(RegExp(r','), '.')),
+            textAlign: TextAlign.center,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          ),
+        ],
+      ),
+    );
   }
 
   void pickDateAndroid() {
@@ -431,8 +433,7 @@ class _AddBabyState extends State<AddBaby> {
               height: MediaQuery.of(context).size.height * 0.3,
               child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.date,
-                  initialDateTime:
-                      _birthDay ?? DateTime.now(),
+                  initialDateTime: _birthDay ?? DateTime.now(),
                   maximumDate: DateTime.now(),
                   onDateTimeChanged: (value) {
                     setState(() {
@@ -443,7 +444,10 @@ class _AddBabyState extends State<AddBaby> {
   }
 
 // Gender Picker Method
-  Container _buildSelect({required IconData icon, required Color background, required Color iconColor}) {
+  Container _buildSelect(
+      {required IconData icon,
+      required Color background,
+      required Color iconColor}) {
     return Container(
       height: 50,
       width: 50,
@@ -459,7 +463,9 @@ class _AddBabyState extends State<AddBaby> {
   }
 
   Widget _buildGenderSelect(
-      {required IconData gender, required bool selected, required VoidCallback onTapAction}) {
+      {required IconData gender,
+      required bool selected,
+      required VoidCallback onTapAction}) {
     var button = selected
         ? _buildSelect(
             icon: gender,
@@ -478,15 +484,14 @@ class _AddBabyState extends State<AddBaby> {
     final picked = await picker.pickImage(source: source, imageQuality: 70);
     if (picked != null) {
       _cropImage(picked);
-    } else {
-    }
+    } else {}
   }
 
   _cropImage(picked) async {
     CroppedFile? cropped = await ImageCropper().cropImage(
-        sourcePath: picked.path, 
-        cropStyle: CropStyle.circle,
-        );
+      sourcePath: picked.path,
+      cropStyle: CropStyle.circle,
+    );
     if (cropped != null) {
       setState(() {
         _pickedImage = File(cropped.path);
@@ -494,7 +499,8 @@ class _AddBabyState extends State<AddBaby> {
       final directory = await syspaths.getApplicationDocumentsDirectory();
       String directoryPath = directory.path;
       FileImage(File('$directoryPath/$babyName}.jpg')).evict();
-      File savedImage = await _pickedImage!.copy('$directoryPath/$babyName.jpg');
+      File savedImage =
+          await _pickedImage!.copy('$directoryPath/$babyName.jpg');
     }
   }
 }
