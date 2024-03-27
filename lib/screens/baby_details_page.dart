@@ -180,6 +180,8 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
               bottom: 110,
               right: 40,
               child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -191,6 +193,7 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
                     widget.isGirl == true ? Colors.pink : Colors.blue,
                 child: const Icon(
                   Icons.add,
+                  color: Colors.white,
                   size: 30,
                 ),
               ),

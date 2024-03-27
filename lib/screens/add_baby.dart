@@ -67,7 +67,6 @@ class _AddBabyState extends State<AddBaby> {
         bottomNavigationBar: MaterialButton(
           elevation: 0,
           height: 75,
-          minWidth: MediaQuery.of(context).size.width,
           color: Colors.transparent,
           onPressed: () {
             if (babyName == null ||

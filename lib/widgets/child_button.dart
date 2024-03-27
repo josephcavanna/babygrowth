@@ -42,6 +42,7 @@ class _ChildButtonState extends State<ChildButton> {
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Padding(
       padding:
           const EdgeInsets.only(top: 10.0, left: 20, right: 20, bottom: 10),
@@ -98,9 +99,12 @@ class _ChildButtonState extends State<ChildButton> {
           ),
           key: Key(widget.babyID!),
           child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(
+            width: orientation == Orientation.portrait
+                ? width
+                : width * 0.25,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.6),
+              borderRadius: const BorderRadius.all(
                 Radius.circular(5),
               ),
             ),
@@ -152,7 +156,8 @@ class _ChildButtonState extends State<ChildButton> {
                         widget.name!,
                         style: TextStyle(
                             color: Style().genderColor(isGirl: widget.isGirl!),
-                            fontWeight: FontWeight.w200),
+                            fontWeight: FontWeight.w200,
+                            ),
                       ),
                     ),
                   ),

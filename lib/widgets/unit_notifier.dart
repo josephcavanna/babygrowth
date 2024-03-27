@@ -57,6 +57,7 @@ class _UnitNotifierState extends State<UnitNotifier> {
       splashColor: Colors.grey,
       selectedColor: Colors.white,
       isSelected: unitSelected,
+      borderRadius: BorderRadius.circular(15),
       onPressed: (int index) {
         setState(() {
           for (int unitIndex = 0;
