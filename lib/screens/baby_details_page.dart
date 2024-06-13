@@ -221,9 +221,9 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
             ),
             Positioned(
               top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? MediaQuery.of(context).size.height * 0.28
-                  : MediaQuery.of(context).size.height * 0.25,
-              left: MediaQuery.of(context).size.width / 1.35,
+                  ? 240
+                  : 105,
+              right: 50,
               child: SizedBox(
                 height: 50,
                 child: Column(
@@ -247,7 +247,7 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
             Positioned(
               width: MediaQuery.of(context).size.width,
               top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? 35
+                  ? 45
                   : 20,
               child: Padding(
                 padding:
@@ -561,7 +561,14 @@ class _BabyDetailsPageState extends State<BabyDetailsPage>
   _cropImage(picked) async {
     CroppedFile? cropped = await ImageCropper().cropImage(
         sourcePath: picked.path,
-        cropStyle: CropStyle.circle,
+        uiSettings: [
+        AndroidUiSettings(
+          cropStyle: CropStyle.circle
+        ),
+        IOSUiSettings(
+          cropStyle: CropStyle.circle
+        ),
+      ],
         maxHeight: 500,
         maxWidth: 500);
     setState(() {

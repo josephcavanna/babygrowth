@@ -144,6 +144,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>abseil-xcprivacy.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>abseil.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -225,6 +230,11 @@
 			<false/>
 		</dict>
 		<key>modern_form_esys_flutter_share.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>nanopb-nanopb_Privacy.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

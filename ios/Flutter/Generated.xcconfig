@@ -1,15 +1,15 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=/Users/josephcavanna/Developer/flutter
-FLUTTER_APPLICATION_PATH=/Users/josephcavanna/Development/Flutter Projects/babygrowth_2
+FLUTTER_APPLICATION_PATH=/Users/josephcavanna/Development/Flutter Projects/babygrowth
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=/Users/josephcavanna/Development/Flutter Projects/babygrowth_2/lib/main.dart
+FLUTTER_TARGET=/Users/josephcavanna/Development/Flutter Projects/babygrowth/lib/main.dart
 FLUTTER_BUILD_DIR=build
-FLUTTER_BUILD_NAME=2.1.0
-FLUTTER_BUILD_NUMBER=6
+FLUTTER_BUILD_NAME=2.1.2
+FLUTTER_BUILD_NUMBER=15
 EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
 EXCLUDED_ARCHS[sdk=iphoneos*]=armv7
-DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9hNWMyNGY1MzhkMDVhYWY2NmY3OTcyZmIyMzk1OWQ4Y2FmYjlmOTVhLw==
+DART_DEFINES=RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9lZGQ4NTQ2MTE2NDU3YmRmMWM1YmRmYjEzZWNiOTQ2M2QyYmI1ZWQ0Lw==
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
-PACKAGE_CONFIG=/Users/josephcavanna/Development/Flutter Projects/babygrowth_2/.dart_tool/package_config.json
+PACKAGE_CONFIG=/Users/josephcavanna/Development/Flutter Projects/babygrowth/.dart_tool/package_config.json

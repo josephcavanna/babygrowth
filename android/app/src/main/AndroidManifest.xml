@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.babygrowth_2">
+    package="com.jacavanna.babygrowth_app">
    <application
-        android:label="babygrowth_2"
+        android:label="BabyGrowth"
         android:name="${applicationName}"
         android:icon="@mipmap/babygrowth_appicon">
         <activity

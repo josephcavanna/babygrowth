@@ -34,7 +34,7 @@
               "client_id": "549332310962-4mv88q7pn11u3rt3vaoo53lc1h6cuveu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.jacavanna.babygrowthApp"
+                "bundle_id": "com.jacavanna.babygrowth_app"
               }
             }
           ]
@@ -70,7 +70,7 @@
               "client_id": "549332310962-4mv88q7pn11u3rt3vaoo53lc1h6cuveu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.jacavanna.babygrowthApp"
+                "bundle_id": "com.jacavanna.babygrowth_app"
               }
             }
           ]

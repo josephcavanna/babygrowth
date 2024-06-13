@@ -489,7 +489,15 @@ class _AddBabyState extends State<AddBaby> {
   _cropImage(picked) async {
     CroppedFile? cropped = await ImageCropper().cropImage(
       sourcePath: picked.path,
-      cropStyle: CropStyle.circle,
+      uiSettings: [
+        AndroidUiSettings(
+          cropStyle: CropStyle.circle
+        ),
+        IOSUiSettings(
+          cropStyle: CropStyle.circle
+        ),
+      ],
+      
     );
     if (cropped != null) {
       setState(() {

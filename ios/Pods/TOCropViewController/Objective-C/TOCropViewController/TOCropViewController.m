@@ -1,7 +1,7 @@
 //
 //  TOCropViewController.m
 //
-//  Copyright 2015-2022 Timothy Oliver. All rights reserved.
+//  Copyright 2015-2024 Timothy Oliver. All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to
@@ -84,7 +84,6 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
         // Set up base view controller behaviour
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.modalPresentationStyle = UIModalPresentationFullScreen;
-        self.automaticallyAdjustsScrollViewInsets = NO;
         self.hidesNavigationBar = true;
         
         // Controller object that handles the transition animation when presenting / dismissing this app
@@ -144,7 +143,9 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
     // so we can manually control the status bar fade out timing
     if (animated) {
         self.inTransition = YES;
+#if TARGET_OS_IOS
         [self setNeedsStatusBarAppearanceUpdate];
+#endif
     }
     
     // If this controller is pushed onto a navigation stack, set flags noting the
@@ -187,7 +188,9 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
     // Now that the presentation animation will have finished, animate
     // the status bar fading out, and if present, the title label fading in
     void (^updateContentBlock)(void) = ^{
+#if TARGET_OS_IOS
         [self setNeedsStatusBarAppearanceUpdate];
+#endif
         self.titleLabel.alpha = 1.0f;
     };
 
@@ -215,8 +218,10 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
     
     // Set the transition flag again so we can defer the status bar
     self.inTransition = YES;
+#if TARGET_OS_IOS
     [UIView animateWithDuration:0.5f animations:^{ [self setNeedsStatusBarAppearanceUpdate]; }];
-    
+#endif
+
     // Restore the navigation controller to its state before we were presented
     if (self.navigationController && self.hidesNavigationBar) {
         [self.navigationController setNavigationBarHidden:self.navigationBarHidden animated:animated];
@@ -230,7 +235,9 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
     
     // Reset the state once the view has gone offscreen
     self.inTransition = NO;
+#if TARGET_OS_IOS
     [self setNeedsStatusBarAppearanceUpdate];
+#endif
 }
 
 #pragma mark - Status Bar -
@@ -242,6 +249,9 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 
     // Even though we are a dark theme, leave the status bar
     // as black so it's not obvious that it's still visible during the transition
+    if (@available(iOS 13.0, *)) {
+        return UIStatusBarStyleDarkContent;
+    }
     return UIStatusBarStyleDefault;
 }
 
@@ -1122,6 +1132,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 
 - (void)setAspectRatioLockDimensionSwapEnabled:(BOOL)aspectRatioLockDimensionSwapEnabled
 {
+    _aspectRatioLockDimensionSwapEnabled = aspectRatioLockDimensionSwapEnabled;
     self.cropView.aspectRatioLockDimensionSwapEnabled = aspectRatioLockDimensionSwapEnabled;
 }
 
@@ -1184,6 +1195,16 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 - (BOOL)cancelButtonHidden
 {
     return self.toolbar.cancelButtonHidden;
+}
+
+- (BOOL)reverseContentLayout
+{
+    return self.toolbar.reverseContentLayout;
+}
+- (void)setReverseContentLayout:(BOOL)reverseContentLayout
+{
+
+    self.toolbar.reverseContentLayout = reverseContentLayout;
 }
 
 - (void)setResetAspectRatioEnabled:(BOOL)resetAspectRatioEnabled
@@ -1272,32 +1293,22 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 - (CGFloat)statusBarHeight
 {
     CGFloat statusBarHeight = 0.0f;
-    if (@available(iOS 11.0, *)) {
-        statusBarHeight = self.view.safeAreaInsets.top;
+    statusBarHeight = self.view.safeAreaInsets.top;
 
-        // We do need to include the status bar height on devices
-        // that have a physical hardware inset, like an iPhone X notch
-        BOOL hardwareRelatedInset = self.view.safeAreaInsets.bottom > FLT_EPSILON
-                                    && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
+    // We do need to include the status bar height on devices
+    // that have a physical hardware inset, like an iPhone X notch
+    BOOL hardwareRelatedInset = self.view.safeAreaInsets.bottom > FLT_EPSILON
+                                && UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
 
-        // Always have insetting on Mac Catalyst
-        #if TARGET_OS_MACCATALYST
-        hardwareRelatedInset = YES;
-        #endif
+    // Always have insetting on Mac Catalyst
+    #if TARGET_OS_MACCATALYST
+    hardwareRelatedInset = YES;
+    #endif
 
-        // Unless the status bar is visible, or we need to account
-        // for a hardware notch, always treat the status bar height as zero
-        if (self.statusBarHidden && !hardwareRelatedInset) {
-            statusBarHeight = 0.0f;
-        }
-    }
-    else {
-        if (self.statusBarHidden) {
-            statusBarHeight = 0.0f;
-        }
-        else {
-            statusBarHeight = self.topLayoutGuide.length;
-        }
+    // Unless the status bar is visible, or we need to account
+    // for a hardware notch, always treat the status bar height as zero
+    if (self.statusBarHidden && !hardwareRelatedInset) {
+        statusBarHeight = 0.0f;
     }
     
     return statusBarHeight;
@@ -1306,14 +1317,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 - (UIEdgeInsets)statusBarSafeInsets
 {
     UIEdgeInsets insets = UIEdgeInsetsZero;
-    if (@available(iOS 11.0, *)) {
-        insets = self.view.safeAreaInsets;
-        insets.top = self.statusBarHeight;
-    }
-    else {
-        insets.top = self.statusBarHeight;
-    }
-
+    insets = self.view.safeAreaInsets;
+    insets.top = self.statusBarHeight;
     return insets;
 }
 

@@ -41,7 +41,6 @@ class _UnitNotifierState extends State<UnitNotifier> {
           [true, false]);
     });
     currentUnit = prefs.getInt('currentUnit');
-     print(currentUnit);
   }
 
   @override
@@ -72,7 +71,6 @@ class _UnitNotifierState extends State<UnitNotifier> {
         });
         currentUnit = index;
         saveSelectedUnit();
-        print(currentUnit);
       },
       children: const [
         Padding(
